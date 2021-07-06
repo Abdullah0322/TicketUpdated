@@ -30,7 +30,7 @@ function Icons() {
     email,
     cc
   }
-  axios.post(`http://localhost:5000/api/sendmail` ,datatosend)
+  axios.post(`https://ticketupdater.herokuapp.com/api/sendmail` ,datatosend)
   }
 
   return (

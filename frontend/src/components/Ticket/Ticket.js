@@ -103,7 +103,7 @@ const Ticket = ({ ticket }) => {
     console.log("update headingName", headingName, "index", i);
 
     ticket.heading[i] = headingName;
-    axios.post(`http://localhost:5000/api/tickets/${ticket._id}/heading`, ticket.heading);
+    axios.post(`https://ticketupdater.herokuapp.com/api/tickets/${ticket._id}/heading`, ticket.heading);
 
     console.log("ticket.heading: ", ticket.heading);
   };
@@ -121,7 +121,7 @@ const Ticket = ({ ticket }) => {
   };
   const updateBody = (e, i) => {
     ticket.body[i] = bodyName;
-    axios.post(`http://localhost:5000/api/tickets/${ticket._id}/body`, ticket.body);
+    axios.post(`https://ticketupdater.herokuapp.com/api/tickets/${ticket._id}/body`, ticket.body);
     console.log(ticket._id);
   };
 
@@ -138,7 +138,7 @@ const Ticket = ({ ticket }) => {
   };
   const updateHeading2 = (e, i) => {
     ticket.heading2[i] = headingName2;
-    axios.post(`http://localhost:5000/api/tickets/${ticket._id}/heading2`, ticket.heading2);
+    axios.post(`https://ticketupdater.herokuapp.com/api/tickets/${ticket._id}/heading2`, ticket.heading2);
     console.log(ticket._id);
   };
   const handleHeading2 = (e, i) => {
@@ -155,7 +155,7 @@ const Ticket = ({ ticket }) => {
   };
   const updateBody2 = (e, i) => {
     ticket.body2[i] = bodyName2;
-    axios.post(`http://localhost:5000/api/tickets/${ticket._id}/body2`, ticket.body2);
+    axios.post(`https://ticketupdater.herokuapp.com/api/tickets/${ticket._id}/body2`, ticket.body2);
     console.log(ticket._id);
   };
   const handleBody2 = (e, i) => {

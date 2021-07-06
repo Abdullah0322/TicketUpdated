@@ -46,7 +46,7 @@ function User({ location, history }) {
     // });
     axios({
       method: "POST",
-      url: `http://localhost:5000/api/googlelogin`,
+      url: `https://ticketupdater.herokuapp.com/api/googlelogin`,
       data: { tokenId: response.tokenId },
       config,
     }).then((response) => {

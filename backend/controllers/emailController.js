@@ -37,7 +37,7 @@ const sendEmail = (to, name, type,useremail,cc) => {
     
   const smtpTransport = mailer.createTransport({
     host:"smtp.gmail.com",
-    port: 587,
+    port: 465,
     auth: {
       user: "abdullahnaveed71.am@gmail.com",
      pass:"malikdulli12"

@@ -15,6 +15,7 @@ import {
   Col,
 } from "react-bootstrap";
 import Meta from "Meta/Meta";
+import SERVER from "globals";
 
 function Icons() {
   const [name,setName]=useState("");
@@ -29,7 +30,9 @@ function Icons() {
     email,
     cc
   }
-  axios.post(`https://ticketupdater.herokuapp.com/api/sendmail` ,datatosend)
+  console.log(datatosend)
+  axios.post(`http://localhost:5000/api/sendmail` ,datatosend)
+
   }
 
   return (

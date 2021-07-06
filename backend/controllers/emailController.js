@@ -19,7 +19,7 @@ const getEmailData = (to, name, template,useremail,cc) => {
   console.log('to: ', to);
   console.log('name: ', name);
       data = {
-          from:`${name}`,
+          from:`Ticket Update <${name}> `,
           to,
           cc,
           subject: `Daily Ticket Update`,
@@ -36,7 +36,8 @@ const sendEmail = (to, name, type,useremail,cc) => {
   
     
   const smtpTransport = mailer.createTransport({
-    service: "Gmail",
+    host:"smtp.gmail.com",
+    port: 587,
     auth: {
       user: "abdullahnaveed71.am@gmail.com",
      pass:"malikdulli12"

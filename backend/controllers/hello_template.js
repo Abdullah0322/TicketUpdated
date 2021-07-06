@@ -1,4 +1,5 @@
-const Hello = data => {
+const Hello = (ticketData) => {
+    console.log('ticketData', ticketData)
 
     return `
       <!DOCTYPE html>
@@ -11,6 +12,26 @@ const Hello = data => {
              <body style="margin: 0; padding: 0;">
              <p> Click here to view Tickets </p
              <p>https://ticketupdater.herokuapp.com//</p
+           <div>
+           <table style="width:100%">
+           <tr>
+             <th>${ticketData}</th>
+             <th>Lastname</th>
+             <th>Age</th>
+           </tr>
+           <tr>
+             <td>Jill</td>
+             <td>Smith</td>
+             <td>50</td>
+           </tr>
+           <tr>
+             <td>Eve</td>
+             <td>Jackson</td>
+             <td>94</td>
+           </tr>
+         </table>
+           </div>
+
              </body>
      
        </html>

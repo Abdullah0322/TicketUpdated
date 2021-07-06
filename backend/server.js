@@ -20,6 +20,9 @@ const app = express()
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
+
+// set the view engine to ejs
+app.set('view engine', 'ejs');
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json())

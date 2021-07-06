@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv='Content-Type', content='text/html; charset=UTF-8'>
+    <meta name="viewport" content="width=device-width">
+    <title>Update Ticke</title>
+</head>
+<body>
+    <h1>Heloo</h1>
+    
+<% ticketData.forEach(function(ticket){ %>
+<p><%= ticket._id %></p>
+
+
+<table class="table table-striped table-primary">
+    <thead>
+      <tr>
+        <% ticket.heading.forEach(function(head){%>
+            <th><%= head %></th>
+        <% })%>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <% ticket.body.forEach(function(body){%>
+                <th><%= body %></th>
+            <% })%>
+          </tr>
+
+          <tr>
+            <% ticket.heading2.forEach(function(body){%>
+                <th><%= body %></th>
+            <% })%>
+          </tr>
+
+
+          <tr>
+            <% ticket.body2.forEach(function(body){%>
+                <th><%= body%></th>
+            <% })%>
+          </tr>
+
+
+
+
+    </tbody>
+</table>
+
+<% })%>
+</body>
+</html>

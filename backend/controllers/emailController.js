@@ -39,8 +39,8 @@ const sendEmail = (to, name, type,useremail,cc) => {
     host:"smtp.gmail.com",
     port: 465,
     auth: {
-      user: "abdullahnaveed71.am@gmail.com",
-     pass:"malikdulli12"
+      user: process.env.EMAIL,
+     pass:process.env.PASSWORD
     }
   });
   

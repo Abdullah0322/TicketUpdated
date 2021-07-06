@@ -290,7 +290,8 @@ window.location.reload()
                         <FormControl
                           placeholder={head}
                           name={head.headingName}
-                          value={head.headingName}
+                          value={head.headingname}
+                          defaultValue={head}
                           onChange={(e) => testfunction(e, i)}
                           // onChange={set}
                           // value={hea  d && head.name}
@@ -314,7 +315,7 @@ window.location.reload()
                     className="btn-sm"
                     onClick={() => {
                       // key = product;
-
+                      
                       setInput(true);
                       setButton(true);
                     }}
@@ -355,6 +356,7 @@ window.location.reload()
                         placeholder={body}
                         name={body.bodyName}
                         value={body.bodyName}
+                        defaultValue={body}
                         onChange={(e) => testbody(e, i)}
                       />
                     </InputGroup>
@@ -405,6 +407,7 @@ window.location.reload()
                         placeholder={head2}
                         name={head2.bodyName}
                         value={head2.bodyName}
+                        defaultValue={head2}
                         onChange={(e) => testHeading(e, i)}
                       />
                     </InputGroup>
@@ -453,6 +456,7 @@ window.location.reload()
                         placeholder={body2}
                         name={body2.bodyName}
                         value={body2.bodyName}
+                        defaultValue={body2}
                         onChange={(e) => testBody2(e, i)}
                       />
                     </InputGroup>

@@ -21,7 +21,6 @@ function Icons() {
   const [email,setEmail]=useState("");
   const [cc,setCC]=useState("")
   const useremail=localStorage.getItem("email");
-  console.log('email: ', useremail);
   const submitHandler = (e) => {
     e.preventDefault();
 

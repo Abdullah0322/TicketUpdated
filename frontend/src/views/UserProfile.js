@@ -23,11 +23,9 @@ function User({ location, history }) {
   const [name, setName] = useState("");
  
   const responsesFail = (response) => {
-    console.log(response);
   };
   const responsesSuccess = (response) => {
-    console.log(response);
-    console.log(response.profileObj.name);
+   
     localStorage.setItem("email", JSON.stringify(response.profileObj.email));
     const config = {
       headers: {
@@ -50,7 +48,6 @@ function User({ location, history }) {
       data: { tokenId: response.tokenId },
       config,
     }).then((response) => {
-      console.log(response);
       localStorage.setItem("response", JSON.stringify(response));
       window.location.reload();
     });

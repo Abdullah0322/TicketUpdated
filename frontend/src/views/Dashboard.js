@@ -32,7 +32,6 @@ import "./dashboard.css"
 import axios from "axios"
 
 function Dashboard({ match }) {
-  console.log(process.env.SERVER)
   const keyword = match.params.keyword;
 
   const pageNumber = match.params.pageNumber || 1;
@@ -136,9 +135,8 @@ function Dashboard({ match }) {
   };
 
   const deleteAll = () => {
-    axios.delete("http://localhost:5000/api/tickets/");
+    axios.delete("https://ticketupdater.herokuapp.com/api/tickets/");
     window.location.reload();
-    console.log("tickets delete");
   };
 
   return (

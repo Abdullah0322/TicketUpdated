@@ -37,7 +37,6 @@ const Ticket = ({ ticket }) => {
     if (getresponse) {
       setResponse(true);
     }
-    console.log(response);
   };
 
   const [button3, setButton3] = useState(false);
@@ -92,77 +91,62 @@ const Ticket = ({ ticket }) => {
   };
   const handleChange = (e, i) => {
     const clonedData = [...headingName];
-    console.log("Handle change => ", e.target.value, "index", i);
 
     ticket.heading[i] = e.target.value;
   };
 
   const updateTicke = (e, i) => {
-    console.log("index", i);
 
-    console.log("update headingName", headingName, "index", i);
 
     ticket.heading[i] = headingName;
     axios.post(`https://ticketupdater.herokuapp.com/api/tickets/${ticket._id}/heading`, ticket.heading);
 
-    console.log("ticket.heading: ", ticket.heading);
   };
 
   const testfunction = (e, i) => {
     e.persist();
-    console.log("-----------------", e.target.value, "ine", i);
     handleChange(e, i);
   };
 
   const testbody = (e, i) => {
     e.persist();
-    console.log("-----------------", e.target.value, "ine", i);
     handleBody(e, i);
   };
   const updateBody = (e, i) => {
     ticket.body[i] = bodyName;
     axios.post(`https://ticketupdater.herokuapp.com/api/tickets/${ticket._id}/body`, ticket.body);
-    console.log(ticket._id);
+   
   };
 
   const handleBody = (e, i) => {
     const clonedData = [...bodyName];
-    console.log("Handle change => ", e.target.value, "index", i);
     ticket.body[i] = e.target.value;
-    console.log("ticket.body[i]: ", ticket.body);
   };
   const testHeading = (e, i) => {
     e.persist();
-    console.log("-----------------", e.target.value, "ine", i);
     handleHeading2(e, i);
   };
   const updateHeading2 = (e, i) => {
     ticket.heading2[i] = headingName2;
     axios.post(`https://ticketupdater.herokuapp.com/api/tickets/${ticket._id}/heading2`, ticket.heading2);
-    console.log(ticket._id);
   };
   const handleHeading2 = (e, i) => {
     const clonedData = [...headingName2];
-    console.log("Handle change => ", e.target.value, "index", i);
     ticket.heading2[i] = e.target.value;
-    console.log("ticket.body[i]: ", ticket.body);
+    
   };
 
   const testBody2 = (e, i) => {
     e.persist();
-    console.log("-----------------", e.target.value, "ine", i);
     handleBody2(e, i);
   };
   const updateBody2 = (e, i) => {
     ticket.body2[i] = bodyName2;
     axios.post(`https://ticketupdater.herokuapp.com/api/tickets/${ticket._id}/body2`, ticket.body2);
-    console.log(ticket._id);
   };
   const handleBody2 = (e, i) => {
     const clonedData = [...bodyName2];
-    console.log("Handle change => ", e.target.value, "index", i);
     ticket.body2[i] = e.target.value;
-    console.log("ticket.body[i]: ", ticket.body);
   };
 
   const handleUpdated = () => {
@@ -198,12 +182,7 @@ const Ticket = ({ ticket }) => {
 
 const handleDuplicate=()=>{
 
-// const getticket= ticket;
-// delete getticket._id
-// console.log(getticket)
-// console.log(getticket.heading)
-// axios.post(`/api/tickets/duplicate`,getticket).then()
-// console.log(getticket)
+
 dispatch(duplicateTicket(ticket))
 window.location.reload()
 

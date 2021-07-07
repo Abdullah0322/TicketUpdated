@@ -89,7 +89,7 @@ else{
       <Container fluid>
         <Row>
         <Col xs={12} md={6}>
-            <h3>Send Template as Email</h3>
+            <h3>Send Email</h3>
               <Form onSubmit={
                 
                 submitHandler

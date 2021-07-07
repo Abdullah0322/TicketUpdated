@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  Button,
+  // Button,
   Table,
   InputGroup,
   FormControl,
@@ -19,8 +19,19 @@ import {
 } from "../../actions/ticketActions.js";
 
 import axios from "axios";
-import "./ticket.css"
+import "./ticket.css";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import { Card } from "@material-ui/core";
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+}));
 const Ticket = ({ ticket }) => {
+  const classes = useStyles();
   const [input, setInput] = useState(false);
   const [input1, setInput1] = useState(false);
   const [input2, setInput2] = useState(false);
@@ -48,16 +59,18 @@ const Ticket = ({ ticket }) => {
 
   const [data, setData] = useState(ticket.heading);
 
-
-
-
+  if (ticket.body2[0] == "check.com") {
+    console.log(<a href="clickhere to reveal link"></a>);
+  } else {
+    console.log(ticket.body2[0]);
+  }
 
   const dispatch = useDispatch();
 
   const deleteheading = (id) => {
     ticket.heading.pop();
     ticket.body.pop();
-    
+
     dispatch(deleteTicketHeading(ticket._id, {}));
   };
 
@@ -74,10 +87,10 @@ const Ticket = ({ ticket }) => {
   };
 
   const submitHandler = (e) => {
-  const head = "sample name";
+    const head = "sample name";
 
-  ticket.heading.push(head);
-  ticket.body.push(head);
+    ticket.heading.push(head);
+    ticket.body.push(head);
 
     dispatch(createTicketHeading(ticket._id, {}));
   };
@@ -85,8 +98,8 @@ const Ticket = ({ ticket }) => {
   const submitHand = (e) => {
     const head = "sample name";
 
-  ticket.heading2.push(head);
-  ticket.body2.push(head);
+    ticket.heading2.push(head);
+    ticket.body2.push(head);
     dispatch(createTicketHeading2(ticket._id, {}));
   };
   const handleChange = (e, i) => {
@@ -96,11 +109,11 @@ const Ticket = ({ ticket }) => {
   };
 
   const updateTicke = (e, i) => {
-
-
     ticket.heading[i] = headingName;
-    axios.post(`https://ticketupdater.herokuapp.com/api/tickets/${ticket._id}/heading`, ticket.heading);
-
+    axios.post(
+      `https://ticketupdater.herokuapp.com/api/tickets/${ticket._id}/heading`,
+      ticket.heading
+    );
   };
 
   const testfunction = (e, i) => {
@@ -114,8 +127,10 @@ const Ticket = ({ ticket }) => {
   };
   const updateBody = (e, i) => {
     ticket.body[i] = bodyName;
-    axios.post(`https://ticketupdater.herokuapp.com/api/tickets/${ticket._id}/body`, ticket.body);
-   
+    axios.post(
+      `https://ticketupdater.herokuapp.com/api/tickets/${ticket._id}/body`,
+      ticket.body
+    );
   };
 
   const handleBody = (e, i) => {
@@ -128,12 +143,14 @@ const Ticket = ({ ticket }) => {
   };
   const updateHeading2 = (e, i) => {
     ticket.heading2[i] = headingName2;
-    axios.post(`https://ticketupdater.herokuapp.com/api/tickets/${ticket._id}/heading2`, ticket.heading2);
+    axios.post(
+      `https://ticketupdater.herokuapp.com/api/tickets/${ticket._id}/heading2`,
+      ticket.heading2
+    );
   };
   const handleHeading2 = (e, i) => {
     const clonedData = [...headingName2];
     ticket.heading2[i] = e.target.value;
-    
   };
 
   const testBody2 = (e, i) => {
@@ -142,7 +159,10 @@ const Ticket = ({ ticket }) => {
   };
   const updateBody2 = (e, i) => {
     ticket.body2[i] = bodyName2;
-    axios.post(`https://ticketupdater.herokuapp.com/api/tickets/${ticket._id}/body2`, ticket.body2);
+    axios.post(
+      `https://ticketupdater.herokuapp.com/api/tickets/${ticket._id}/body2`,
+      ticket.body2
+    );
   };
   const handleBody2 = (e, i) => {
     const clonedData = [...bodyName2];
@@ -180,101 +200,12 @@ const Ticket = ({ ticket }) => {
     }
   };
 
-const handleDuplicate=()=>{
-
-
-dispatch(duplicateTicket(ticket))
-window.location.reload()
-
-
-}
-
-
-
+  const handleDuplicate = () => {
+    dispatch(duplicateTicket(ticket));
+  };
 
   return (
     <div>
-    
-       
-      <div className="buttons">
-       <Row>
-          {localStorage.getItem("response") ? (
-            <Button
-              variant="danger "
-              className="btn-sm"
-              onClick={() => deleteHandler(ticket._id)}
-            >
-              Delete 
-            </Button>
-          ) : (
-            ""
-          )}
-  {localStorage.getItem("response") ? (
-            <Button
-              variant="danger"
-              className="btn-sm"
-              onClick={() => deleteheading(ticket._id)}
-            >
-              Delete Column in Row 1
-            </Button>
-          ) : (
-            ""
-          )}
-          {localStorage.getItem("response") ? (
-            <Button
-              variant="danger"
-              className="btn-sm"
-              onClick={() => deleteheading2(ticket._id)}
-            >
-              Delete Column in Row 2
-            </Button>
-          ) : (
-            ""
-          )}
-        
-      <Col>
-        
-      {localStorage.getItem("response") ? (
-            <Button
-              variant="primary"
-              className="btn-sm"
-              onClick={handleDuplicate}
-            >
-             Duplicate
-            </Button>
-          ) : (
-            ""
-          )}
-           {localStorage.getItem("response") ? (
-            <Button
-              variant="primary"
-              className="btn-sm"
-              onClick={() => submitHand(ticket._id)}
-            >
-              Add Column in Row 2
-            </Button>
-          ) : (
-            ""
-          )}
-
-      {localStorage.getItem("response") ? (
-            <Button
-              variant="primary"
-              className="btn-sm"
-              onClick={() => submitHandler(ticket._id)}
-            >
-              Add Column in Row 1
-            </Button>
-          ) : (
-            ""
-          )}
-       
-         
-         
-          </Col>
-       </Row>
-       </div>
-     
       <Row>
         <Table className="table table-borderless" variant="dark">
           <thead>
@@ -309,37 +240,36 @@ window.location.reload()
 
               <th>
                 <div className="edit">
-                {button == false && localStorage.getItem("response") ? (
-                  <Button
-                    variant="primary"
-                    className="btn-sm"
-                    onClick={() => {
-                      // key = product;
-                      
-                      setInput(true);
-                      setButton(true);
-                    }}
-                  >
-                    <i className="fas fa-edit"></i>
-                  </Button>
-                ) : (
-                  <Button
-                    variant="primary"
-                    className="btn-sm"
-                    onClick={() => {
-                      // submitHandle();
+                  {button == false && localStorage.getItem("response") ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        // key = product;
 
-                      handleUpdated();
-                      // key = product;
-                      setButton(false);
-                      setInput(false);
-                    }}
-                  >
-                    Update
-                  </Button>
-                )}
+                        setInput(true);
+                        setButton(true);
+                      }}
+                    >
+                      <i className="fas fa-edit"></i>
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        // submitHandle();
+
+                        handleUpdated();
+                        // key = product;
+                        setButton(false);
+                        setInput(false);
+                      }}
+                    >
+                      Update
+                    </Button>
+                  )}
                 </div>
-               
               </th>
             </tr>
           </thead>
@@ -367,8 +297,8 @@ window.location.reload()
                 {" "}
                 {button1 == false && localStorage.getItem("response") ? (
                   <Button
-                    variant="primary"
-                    className="btn-sm"
+                    variant="contained"
+                    color="primary"
                     onClick={() => {
                       // key = product;
 
@@ -380,10 +310,9 @@ window.location.reload()
                   </Button>
                 ) : (
                   <Button
-                    variant="primary"
-                    className="btn-sm"
+                    variant="contained"
+                    color="primary"
                     onClick={() => {
-                     
                       handleBod();
                       setButton1(false);
                       setInput1(false);
@@ -418,8 +347,8 @@ window.location.reload()
                 {" "}
                 {button2 == false && localStorage.getItem("response") ? (
                   <Button
-                    variant="primary"
-                    className="btn-sm"
+                    variant="contained"
+                    color="primary"
                     onClick={() => {
                       // key = product;
 
@@ -431,10 +360,9 @@ window.location.reload()
                   </Button>
                 ) : (
                   <Button
-                    variant="primary"
-                    className="btn-sm"
+                    variant="contained"
+                    color="primary"
                     onClick={() => {
-                     
                       handleHead();
                       setButton2(false);
                       setInput2(false);
@@ -449,7 +377,7 @@ window.location.reload()
               {ticket.body2.map((body2, i) => (
                 <td key={i}>
                   {input3 == false ? (
-                     <div className="body"> {body2}</div>
+                    <div className="body"> {body2}</div>
                   ) : (
                     <InputGroup className="mb-3">
                       <FormControl
@@ -467,8 +395,8 @@ window.location.reload()
                 {" "}
                 {button3 == false && localStorage.getItem("response") ? (
                   <Button
-                    variant="primary"
-                    className="btn-sm"
+                    variant="contained"
+                    color="primary"
                     onClick={() => {
                       // key = product;
 
@@ -480,11 +408,11 @@ window.location.reload()
                   </Button>
                 ) : (
                   <Button
-                    variant="primary"
-                    className="btn-sm"
+                    variant="contained"
+                    color="primary"
                     onClick={() => {
                       handleBodyyy2();
-                      
+
                       setButton3(false);
                       setInput3(false);
                     }}
@@ -492,6 +420,96 @@ window.location.reload()
                     Update
                   </Button>
                 )}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                {localStorage.getItem("response") ? (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    onClick={() => deleteHandler(ticket._id)}
+                  >
+                    Delete
+                  </Button>
+                ) : (
+                  ""
+                )}
+              </td>
+              <td>
+              {localStorage.getItem("response") ? (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    onClick={() => deleteheading(ticket._id)}
+                  >
+                    Delete Column 1
+                  </Button>
+                ) : (
+                  ""
+                )}
+              </td>
+              <td>
+              {localStorage.getItem("response") ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={() => submitHandler(ticket._id)}
+                  >
+                    Add Column 1
+                  </Button>
+                ) : (
+                  ""
+                )}
+              </td>
+            </tr>
+            <tr>
+              <td>
+              {localStorage.getItem("response") ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={handleDuplicate}
+                  >
+                    Duplicate
+                  </Button>
+                ) : (
+                  ""
+                )}
+                
+              </td>
+              <td>
+                {localStorage.getItem("response") ? (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    onClick={() => deleteheading2(ticket._id)}
+                  >
+                    Delete Column 2
+                  </Button>
+                ) : (
+                  ""
+                )}
+              </td>
+              <td>
+              {localStorage.getItem("response") ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={() => submitHand(ticket._id)}
+                  >
+                    Add Column 2
+                  </Button>
+                ) : (
+                  ""
+                )}
+                
               </td>
             </tr>
           </tbody>

@@ -22,7 +22,7 @@ import {
      ticketHeading2Create:ticketHeading2CreateReducer,
      ticketHeadingDelete:ticketHeadingDeleteReducer,
      ticketHeading2Delete:ticketHeading2DeleteReducer,
-     ticketDuplicate:ticketDeleteReducer
+     ticketDuplicate:ticketDuplicateReducer
   
 
    })

@@ -9,10 +9,10 @@ import path from 'path'
 
 const __dirname = path.resolve()
 
-const CLIENT_ID = process.env.CLIENT_ID;
-const CLEINT_SECRET = process.env.CLEINT_SECRET;
-const REDIRECT_URI = process.env.REDIRECT_URI;
-const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+const CLIENT_ID = '807669913381-mk2cci6qqnkv9gjn4d6a2s41jq079t1t.apps.googleusercontent.com';
+const CLEINT_SECRET = 'd0c0YQ3wesgJltUUKbmcpuCy';
+const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
+const REFRESH_TOKEN = '1//04ilEdhBFvk56CgYIARAAGAQSNwF-L9Ir0orcAqsXUXvauuKwCPQlMku9aEh7reDDLksPqEHI46AfaTbly3WBQhRjqVtzut5hAZc';
 
 const oAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,

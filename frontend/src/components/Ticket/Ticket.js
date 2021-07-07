@@ -449,7 +449,7 @@ window.location.reload()
               {ticket.body2.map((body2, i) => (
                 <td key={i}>
                   {input3 == false ? (
-                    <b>{body2}</b>
+                     <div className="body"> {body2}</div>
                   ) : (
                     <InputGroup className="mb-3">
                       <FormControl

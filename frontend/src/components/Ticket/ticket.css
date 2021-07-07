@@ -3,4 +3,12 @@
     color: #88B04B
 
     ;
+    width: 250px;
+    word-wrap: break-word;
+}
+
+.body{
+    width: 250px;
+    word-wrap: break-word;
+  
 }

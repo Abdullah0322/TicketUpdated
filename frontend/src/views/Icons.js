@@ -3,6 +3,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
+import NotificationAlert from "react-notification-alert";
 import axios from "axios";
 import {
   Badge,
@@ -31,18 +32,69 @@ function Icons() {
     cc
   }
   console.log(datatosend)
-  axios.post(`http://localhost:5000/api/sendmail` ,datatosend)
+  if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email && cc)){
+    axios.post(`http://ticketupdater.herokuapp.com/api/sendmail` ,datatosend).then(notify("tc",`Email sent to ${email} CC:${cc}`))
+  
+  }
+  
+  
+else{
+  alert("You have entered an invalid email address!")
+
+}
+ 
 
   }
+
+  const notificationAlertRef = React.useRef(null);
+  const notify = (place,message) => {
+    var color = Math.floor(Math.random() * 5 + 1);
+    var type;
+    var message;
+    switch (color) {
+      
+      case 1:
+        type = "success";
+        break;
+      case 2:
+        type = "danger";
+        break;
+      case 4:
+        type = "warning";
+        break;
+      case 5:
+        type = "info";
+        break;
+      default:
+        break;
+    }
+    var options = {};
+    options = {
+      place: place,
+      
+      message: message,
+      type: type,
+      icon: "nc-icon nc-bell-55",
+      autoDismiss: 7,
+    };
+    notificationAlertRef.current.notificationAlert(options);
+  };
 
   return (
     <>
     <Meta></Meta>
+    <div className="rna-container">
+        <NotificationAlert ref={notificationAlertRef} />
+      </div>
       <Container fluid>
         <Row>
         <Col xs={12} md={6}>
             <h3>Send Template as Email</h3>
-              <Form onSubmit={submitHandler}>
+              <Form onSubmit={
+                
+                submitHandler
+                
+                }>
                 <Form.Group controlId="name">
                   <Form.Label>Name</Form.Label>
                   <Form.Control
@@ -75,7 +127,7 @@ function Icons() {
                   ></Form.Control>
                 </Form.Group>
 
-                <Button  type="submit" variant="primary">
+                <Button  type="submit"  variant="primary">
                   Send Mail
                 </Button>
               

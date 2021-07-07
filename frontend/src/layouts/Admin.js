@@ -54,7 +54,7 @@ function Admin() {
           <div className="content">
             <Switch>{getRoutes(routes)}</Switch>
           </div>
-          <Footer />
+         
         </div>
       </div>
       <FixedPlugin

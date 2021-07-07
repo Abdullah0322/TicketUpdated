@@ -74,11 +74,7 @@ function Header() {
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
-                <LinkContainer to='/user'>
-                  <Nav.Link>
-                    {`Sign In`} 
-                  </Nav.Link>
-                </LinkContainer>
+                ""
               )}
                
             

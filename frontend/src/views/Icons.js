@@ -33,7 +33,7 @@ function Icons() {
   }
   console.log(datatosend)
   if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email && cc)){
-    axios.post(`http://ticketupdater.herokuapp.com/api/sendmail` ,datatosend).then(notify("tc",`Email sent to ${email} CC:${cc}`))
+    axios.post(`https://ticketupdater.herokuapp.com/api/sendmail` ,datatosend).then(notify("tc",`Email sent to ${email} CC:${cc}`))
   
   }
   

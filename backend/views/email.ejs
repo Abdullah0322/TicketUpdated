@@ -15,7 +15,7 @@
 }
 
 table {
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
   border-collapse: collapse;
   margin: 0;
   padding: 0;
@@ -41,13 +41,16 @@ table td {
 }
 
 table th {
+  color: #88B04B;
   font-size: .85em;
+  font-weight: bold;
   letter-spacing: .1em;
   text-transform: uppercase;
 }
 
 @media screen and (max-width: 600px) {
   table {
+    color: black;
     border: 0;
   }
 
@@ -102,6 +105,7 @@ table th {
     
 <% ticketData.forEach(function(ticket){ %>
 <br>
+  <hr>
 
 <table>
   

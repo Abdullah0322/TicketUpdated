@@ -12,7 +12,7 @@ import userRoutes from './routes/userRoutes.js'
 import emailRoutes from './routes/emailRoutes.js'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
-
+import templateRoutes from "./routes/templateRoutes.js"
 
 connectDB()
 const app = express()
@@ -30,7 +30,7 @@ app.use(express.static('public'))
 app.use('/api/tickets', ticketRoutes)
 app.use('/api/', userRoutes)
 app.use('/api/', emailRoutes)
-
+app.use('/api/template',templateRoutes)
 
 
 

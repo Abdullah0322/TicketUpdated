@@ -96,7 +96,7 @@ export const createTicket = () => async (dispatch) => {
       type: TICKET_CREATE_REQUEST,
     });
 
-    const { data } = await axios.post(`${SERVER}/api/tickets`, {});
+    const { data } = await axios.post(`http://localhost:5000/api/tickets`, {});
 
     dispatch({
       type: TICKET_CREATE_SUCCESS,
@@ -120,7 +120,7 @@ export const deleteTicket = (id) => async (dispatch) => {
       type: TICKET_DELETE_REQUEST,
     });
 
-    await axios.delete(`${SERVER}/api/tickets/${id}`);
+    await axios.put(`${SERVER}/api/tickets/${id}/deleteticket`);
 
     dispatch({
       type: TICKET_DELETE_SUCCESS,

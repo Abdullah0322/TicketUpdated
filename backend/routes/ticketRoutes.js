@@ -18,6 +18,8 @@ duplicateTicket,
 createHeading2,
 removeHeading,
 removeHeading2,
+isDeleted
+
 
 
 } from '../controllers/ticketController.js'
@@ -41,4 +43,5 @@ router
   router.post('/:id/body2',updateBody2)
   router.delete('/',deleteAll)
   router.post('/duplicate',duplicateTicket)
+  router.put('/:id/deleteticket',isDeleted)
   export default router

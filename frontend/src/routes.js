@@ -49,6 +49,15 @@ const dashboardRoutes = [
     component: Icons,
     layout: "/admin",
   },
+
+  {
+    path: "/templetes",
+    name: "Previous Templates",
+    icon: "nc-icon nc-atom",
+    component: Notifications,
+    layout: "/admin",
+  },
+  
   
 ];
 

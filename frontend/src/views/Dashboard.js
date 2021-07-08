@@ -139,6 +139,14 @@ function Dashboard({ match }) {
     window.location.reload();
   };
 
+
+  const saveTemplate=()=>{
+    console.log(tickets) // axios.post('http://localhost:5000/api/template',tickets)
+  axios.post('http://localhost:5000/api/template',tickets)
+
+  }
+
+
   return (
     <>
     <Meta></Meta>
@@ -255,6 +263,41 @@ function Dashboard({ match }) {
                                 onClick={deleteAll}
                               >
                                 Delete All Rows
+                              </Button>
+                            ) : (
+                              <h6>You must be admin to Delete</h6>
+                            )}</Card.Title>
+                    </div>
+                  </Col>
+                </Row>
+              </Card.Body>
+              <Card.Footer>
+                <hr></hr>
+                <div className="stats">
+                  <i className="fas fa-redo mr-1"></i>
+                  Update now
+                </div>
+              </Card.Footer>
+            </Card>
+          </Col>
+          <Col lg="3" sm="6">
+            <Card className="card-stats">
+              <Card.Body>
+                <Row>
+                  <Col xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-favourite-28 text-primary"></i>
+                    </div>
+                  </Col>
+                  <Col xs="7">
+                    <div className="numbers">
+                      <p className="card-category">Save Current Template</p>
+                      <Card.Title as="h4">{localStorage.getItem("response") ? (
+                              <Button
+                              variant="contained"
+                                onClick={saveTemplate}
+                              >
+                               Save Template
                               </Button>
                             ) : (
                               <h6>You must be admin to Delete</h6>

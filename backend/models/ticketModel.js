@@ -19,6 +19,10 @@ const ticketSchema = mongoose.Schema(
     body2: {
       type: Array,
     },
+    isDeleted:{
+      type:Boolean,
+      default:false
+    }
   },
 
   {

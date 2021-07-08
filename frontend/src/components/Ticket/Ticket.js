@@ -438,7 +438,7 @@ const Ticket = ({ ticket }) => {
                 )}
               </td>
               <td>
-              {localStorage.getItem("response") ? (
+                {localStorage.getItem("response") ? (
                   <Button
                     variant="contained"
                     color="secondary"
@@ -452,7 +452,7 @@ const Ticket = ({ ticket }) => {
                 )}
               </td>
               <td>
-              {localStorage.getItem("response") ? (
+                {localStorage.getItem("response") ? (
                   <Button
                     variant="contained"
                     color="primary"
@@ -468,7 +468,7 @@ const Ticket = ({ ticket }) => {
             </tr>
             <tr>
               <td>
-              {localStorage.getItem("response") ? (
+                {localStorage.getItem("response") ? (
                   <Button
                     variant="contained"
                     color="primary"
@@ -480,7 +480,6 @@ const Ticket = ({ ticket }) => {
                 ) : (
                   ""
                 )}
-                
               </td>
               <td>
                 {localStorage.getItem("response") ? (
@@ -497,7 +496,7 @@ const Ticket = ({ ticket }) => {
                 )}
               </td>
               <td>
-              {localStorage.getItem("response") ? (
+                {localStorage.getItem("response") ? (
                   <Button
                     variant="contained"
                     color="primary"
@@ -509,7 +508,6 @@ const Ticket = ({ ticket }) => {
                 ) : (
                   ""
                 )}
-                
               </td>
             </tr>
           </tbody>

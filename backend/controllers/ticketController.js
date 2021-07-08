@@ -1,10 +1,11 @@
 import asyncHandler from "express-async-handler";
 import Ticket from "../models/ticketModel.js";
 
-const getTickets = asyncHandler(async (req, res) => {
-  const pageSize = 100;
-  const page = Number(req.query.pageNumber) || 1;
 
+const getTickets = asyncHandler(async (req, res) => {
+  const pageSize = 1000;
+  const page = Number(req.query.pageNumber) || 1;
+ 
   const keyword = req.query.keyword
     ? {
         name: {
@@ -17,7 +18,7 @@ const getTickets = asyncHandler(async (req, res) => {
   const count = await Ticket.countDocuments({ ...keyword });
   const tickets = await Ticket.find({ ...keyword })
     .limit(pageSize)
-    .skip(pageSize * (page - 1));
+    .skip(pageSize * (page - 1)).where({ isDeleted:false}) ;
 
   res.json({ tickets, page, pages: Math.ceil(count / pageSize) });
 });
@@ -79,6 +80,7 @@ const createTicket = asyncHandler(async (req, res) => {
     body: ["Sample name", "Sample name", "Sample name"],
     heading2: ["Ticket URL", "Status", "ETA"],
     body2: ["Sample name", "Sample name", "0 days"],
+    isDeleted:false
   });
 
   const createdTicket = await ticket.save();
@@ -226,6 +228,7 @@ const createHeading2 = asyncHandler(async (req, res) => {
   res.status(201).json({ message: "Heading added" });
 });
 
+
 const updateTicke = asyncHandler(async (req, res) => {
   const { body } = req;
   const ticket = await Ticket.findById(req.params.id);
@@ -345,6 +348,21 @@ res.status(201).json(createdTicket);
 //   delete newDoc._id;
 //   Ticket.insert(newDoc);
 // })
+const isDeleted = asyncHandler(async (req, res) => {
+  
+
+  const ticket = await Ticket.findById(req.params.id)
+
+  if (ticket) {
+  ticket.isDeleted = true
+
+    const updatedTicket = await ticket.save()
+    res.json(updatedTicket)
+  } else {
+    res.status(404)
+    throw new Error('Ticket not found')
+  }
+})
 
 
 
@@ -365,4 +383,5 @@ export {
   createHeading2,
   removeHeading ,
   removeHeading2,
+  isDeleted
 };

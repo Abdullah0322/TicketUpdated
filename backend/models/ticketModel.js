@@ -22,7 +22,10 @@ const ticketSchema = mongoose.Schema(
     isDeleted:{
       type:Boolean,
       default:false
-    }
+    },
+    isSelected:{
+     type:Array
+},
   },
 
   {

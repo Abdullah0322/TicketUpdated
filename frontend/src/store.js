@@ -13,6 +13,7 @@ import {
     } from './reducers/ticketReducers'
  import { composeWithDevTools } from 'redux-devtools-extension'
  import {
+   templateDetailsReducer,
 templateListReducer
  } from "./reducers/templateReducers"
 
@@ -26,7 +27,8 @@ templateListReducer
      ticketHeadingDelete:ticketHeadingDeleteReducer,
      ticketHeading2Delete:ticketHeading2DeleteReducer,
      ticketDuplicate:ticketDuplicateReducer,
-     templateList:templateListReducer
+     templateList:templateListReducer,
+     templateDetails:templateDetailsReducer
   
 
    })

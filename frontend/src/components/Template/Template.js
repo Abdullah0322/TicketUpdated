@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from 'react-router-dom'
 
 // react plugin for creating notifications over the dashboard
 // react-bootstrap components
@@ -17,58 +18,31 @@ import {
   Table,
 } from "react-bootstrap";
 
+
 const Template = ({ template }) => {
   return (
+
     <>
       <Container fluid>
-        <Card>
-          <Card.Header>Ticket</Card.Header>
-          <Card.Body>
-            <Row>
-              <Table className="table table-borderless" variant="dark">
-                <thead>
-                  <tr>
-                    {template &&
-                      template.heading.map((head, i) => (
-                        <th key={i}>
-                          <h6 className="head">{head}</h6>
-                        </th>
-                      ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {template &&
-                    template.body.map((head, i) => (
-                      <td key={i}>
-                        <h6>{head}</h6>
-                      </td>
-                    ))}
+      <Card className='my-3 p-3 rounded'>
+      <Link to={`admin/template/${template._id}`}>
+       
+      </Link>
 
-                  <tr>
-                  {template &&
-                    template.heading2.map((head, i) => (
-                      <td key={i}>
-                        <h6 className="head">{head}</h6>
-                      </td>
-                    ))}
-                  </tr>
+      <Card.Body>
+        <Link to={`/admin/template/${template._id}`}>
+          <Card.Title as='div'>
+            <strong>{template.createdAt}</strong>
+          </Card.Title>
+        </Link>
 
-                  <tr>
-                  {template &&
-                    template.body2.map((head, i) => (
-                      <td key={i}>
-                        <h6>{head}</h6>
-                      </td>
-                    ))}
-                  </tr>
-                </tbody>
-              </Table>
-            </Row>
-          </Card.Body>
-        </Card>
-        {/* Mini Modal */}
+        <Card.Text as='div'>
+         Number of Tickets: 10
+        </Card.Text>
 
-        {/* End Modal */}
+        
+      </Card.Body>
+    </Card>
       </Container>
     </>
   );

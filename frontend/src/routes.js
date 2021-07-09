@@ -23,6 +23,7 @@ import Icons from "views/Icons.js";
 import Maps from "views/Maps.js";
 import Notifications from "views/Notifications.js";
 import Upgrade from "views/Upgrade.js";
+import TemplateScreen from "views/TemplateScreen";
 
 const dashboardRoutes = [
 
@@ -55,6 +56,15 @@ const dashboardRoutes = [
     name: "Previous Templates",
     icon: "nc-icon nc-atom",
     component: Notifications,
+    layout: "/admin",
+  },
+
+
+  {
+    path: "/template/:id",
+    icon: "nc-icon nc-atom",
+    name:"Temp Screen",
+    component: TemplateScreen,
     layout: "/admin",
   },
   

@@ -3,14 +3,15 @@ const router = express.Router()
 import {
 
     createTemplate,
-    getTemplate
+    getTemplate,
+    getTemp
 } from "../controllers/templeteController.js"
 
 
 router.post('/',createTemplate)
 
-router.get('/', getTemplate)
+router.get('/:id', getTemplate)
 
-
+router.get('/',getTemp)
 
 export default router

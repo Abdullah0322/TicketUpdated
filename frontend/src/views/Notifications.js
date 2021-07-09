@@ -56,13 +56,13 @@ function Notifications({ match }) {
        
       
 <Row><h2>Template</h2></Row>
-       
+
         {templates &&
               templates.map((template) => (
                 <Col key={template._id} md={12}>
                   <Template template={template} />
                 </Col>
-              ))}
+              ))} 
      
       </Container>
        )}

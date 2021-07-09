@@ -9,9 +9,9 @@ import mongoose from "mongoose";
 const templateSchema = mongoose.Schema(
 {
    
-  tickets:[
-    {_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Ticket' }}
-  ]
+  // tickets:[
+  //   {_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Ticket' }}
+  // ]
 
   },
 

@@ -80,7 +80,8 @@ const createTicket = asyncHandler(async (req, res) => {
     body: ["Sample name", "Sample name", "Sample name"],
     heading2: ["Ticket URL", "Status", "ETA"],
     body2: ["Sample name", "Sample name", "0 days"],
-    isDeleted:false
+    isDeleted:false,
+    isSelected:["60e82186bf070c20d191ad3e"]
   });
 
   const createdTicket = await ticket.save();

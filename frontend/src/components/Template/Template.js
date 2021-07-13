@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom'
+import moment from 'moment'
 
 // react plugin for creating notifications over the dashboard
 // react-bootstrap components
@@ -20,6 +21,7 @@ import {
 
 
 const Template = ({ template }) => {
+  var dateString = moment(template.createdAt).format("DD/MM/YYYY");
   return (
 
     <>
@@ -31,13 +33,15 @@ const Template = ({ template }) => {
 
       <Card.Body>
         <Link to={`/admin/template/${template._id}`}>
+
           <Card.Title as='div'>
-            <strong>{template.createdAt}</strong>
+             Template Created At: 
+            <strong>{ dateString}</strong>
           </Card.Title>
         </Link>
 
         <Card.Text as='div'>
-         Number of Tickets: 10
+        Id : {template._id}
         </Card.Text>
 
         

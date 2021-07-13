@@ -1,11 +1,10 @@
 import asyncHandler from "express-async-handler";
 import Ticket from "../models/ticketModel.js";
 
-
 const getTickets = asyncHandler(async (req, res) => {
   const pageSize = 1000;
   const page = Number(req.query.pageNumber) || 1;
- 
+
   const keyword = req.query.keyword
     ? {
         name: {
@@ -18,7 +17,8 @@ const getTickets = asyncHandler(async (req, res) => {
   const count = await Ticket.countDocuments({ ...keyword });
   const tickets = await Ticket.find({ ...keyword })
     .limit(pageSize)
-    .skip(pageSize * (page - 1)).where({ isDeleted:false}) ;
+    .skip(pageSize * (page - 1))
+    .where({ isDeleted: false });
 
   res.json({ tickets, page, pages: Math.ceil(count / pageSize) });
 });
@@ -80,14 +80,13 @@ const createTicket = asyncHandler(async (req, res) => {
     body: ["Sample name", "Sample name", "Sample name"],
     heading2: ["Ticket URL", "Status", "ETA"],
     body2: ["Sample name", "Sample name", "0 days"],
-    isDeleted:false,
-    isSelected:["60e82186bf070c20d191ad3e"]
+    isDeleted: false,
+    
   });
 
   const createdTicket = await ticket.save();
   res.status(201).json(createdTicket);
 });
-
 
 const updateTicket = asyncHandler(async (req, res) => {
   const { ticketId, headingId } = req.params;
@@ -198,7 +197,7 @@ const createHeading = asyncHandler(async (req, res) => {
 
 const removeHeading = asyncHandler(async (req, res) => {
   const ticket = await Ticket.findById(req.params.id);
- 
+
   ticket.heading.pop();
   ticket.body.pop();
 
@@ -208,7 +207,6 @@ const removeHeading = asyncHandler(async (req, res) => {
 
 const removeHeading2 = asyncHandler(async (req, res) => {
   const ticket = await Ticket.findById(req.params.id);
-  
 
   ticket.heading2.pop();
   ticket.body2.pop();
@@ -216,7 +214,6 @@ const removeHeading2 = asyncHandler(async (req, res) => {
   await ticket.save();
   res.status(201).json({ message: "Heading removed" });
 });
-
 
 const createHeading2 = asyncHandler(async (req, res) => {
   const ticket = await Ticket.findById(req.params.id);
@@ -228,7 +225,6 @@ const createHeading2 = asyncHandler(async (req, res) => {
   await ticket.save();
   res.status(201).json({ message: "Heading added" });
 });
-
 
 const updateTicke = asyncHandler(async (req, res) => {
   const { body } = req;
@@ -299,9 +295,6 @@ const updateBody2 = asyncHandler(async (req, res) => {
 });
 
 const duplicateTicket = asyncHandler(async (req, res) => {
-
-
-
   // const ticket= await Ticket.findById(req.params.id)
 
   // ticket.toObject();
@@ -310,17 +303,16 @@ const duplicateTicket = asyncHandler(async (req, res) => {
   // await ticket.save();
 
   // var copy = Ticket.findOne();
-  // for (var i = 0; i< 30; i++){ 
-  //     copy._id = new ObjectId(); 
+  // for (var i = 0; i< 30; i++){
+  //     copy._id = new ObjectId();
   //     Ticket.insert(copy);
   // }
-  
-//   Ticket.find({_id:req.params.id}).then(Ticket => {
-//     Ticket.forEach(function(ticket){
-//        Ticket.insert(ticket)
-//     });
-// })
 
+  //   Ticket.find({_id:req.params.id}).then(Ticket => {
+  //     Ticket.forEach(function(ticket){
+  //        Ticket.insert(ticket)
+  //     });
+  // })
 
   // });
   // Ticket.find({_id:req.params.id}).then((Ticket) => {
@@ -330,16 +322,15 @@ const duplicateTicket = asyncHandler(async (req, res) => {
   // });
   // Ticket.find().forEach(function(doc){
   //   tickets.insert(doc);
-// })
+  // })
 
-const ticket = new Ticket(req.body);
+  const ticket = new Ticket(req.body);
 
-const createdTicket = await ticket.save();
-res.status(201).json(createdTicket);
+  const createdTicket = await ticket.save();
+  res.status(201).json(createdTicket);
 });
 
-
-//  Ticket.findOne({_id:req.params.id}) 
+//  Ticket.findOne({_id:req.params.id})
 
 // const plain= Ticket.toObject();
 
@@ -350,22 +341,45 @@ res.status(201).json(createdTicket);
 //   Ticket.insert(newDoc);
 // })
 const isDeleted = asyncHandler(async (req, res) => {
-  
-
-  const ticket = await Ticket.findById(req.params.id)
+  const ticket = await Ticket.findById(req.params.id);
 
   if (ticket) {
-  ticket.isDeleted = true
+    ticket.isDeleted = true;
 
-    const updatedTicket = await ticket.save()
-    res.json(updatedTicket)
+    const updatedTicket = await ticket.save();
+    res.json(updatedTicket);
   } else {
-    res.status(404)
-    throw new Error('Ticket not found')
+    res.status(404);
+    throw new Error("Ticket not found");
   }
-})
+});
 
+const isSelected = asyncHandler(async (req, res) => {
+  const tickets = await Ticket.find({}).where({ isDeleted: false });
+  console.log(tickets);
+const item=req.body
+  tickets.map(
+    (ticket) => (
+      ticket.isSelected.push(item),
+      ticket.save()
+    )
+  );
+  res.json(tickets);
 
+  // const body = ticket.body;
+  // console.log('body: ', body);
+  //let bodyName = ["name","ok","check"]
+
+  // body.splicebody(body.indexOf("sample name"), 1, "newValue");
+  // var arr = new Array(10), anotherArr = [1, 2, 3], result;
+});
+// const updateTicaks = asyncHandler(async (req, res) => {
+//   const tickets = await Ticket.find({}).where({ isDeleted: false });
+//   console.log(tickets);
+
+//   // ticket.isSelected.push(item);
+//   res.status(201).json({ message: "Template Id added" });
+// });
 
 export {
   getTickets,
@@ -382,7 +396,8 @@ export {
   deleteAll,
   duplicateTicket,
   createHeading2,
-  removeHeading ,
+  removeHeading,
   removeHeading2,
-  isDeleted
+  isDeleted,
+  isSelected,
 };

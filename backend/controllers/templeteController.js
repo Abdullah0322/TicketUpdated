@@ -19,7 +19,7 @@ const getTemplate = asyncHandler(async (req, res) => {
   // console.log(template)
 const id=Template.findById(req.params.id)
 console.log("id",req.params.id) 
-const tickets= await Ticket.find({isSelected:req.params.id})
+const tickets= await Ticket.find({ "isSelected.item": { "$in" : [req.params.id]} })
 console.log(tickets)
   // console.log('templateid: ', templateid);
   // const templates = await Ticket.find({

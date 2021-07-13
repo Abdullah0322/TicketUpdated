@@ -19,13 +19,14 @@ const ticketSchema = mongoose.Schema(
     body2: {
       type: Array,
     },
-    isDeleted:{
-      type:Boolean,
-      default:false
+    isDeleted: {
+      type: Boolean,
+      default: false,
     },
-    isSelected:{
-     type:Array
-},
+    isSelected: {
+      type: Array,
+    },
+    time: { type: Date, default: Date.now },
   },
 
   {

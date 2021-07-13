@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+import SERVER from "../globals";
 
-import ChartistGraph from "react-chartist";
+
 // react-bootstrap components
 import {
   Badge,
@@ -28,10 +30,14 @@ import Message from "../components/Message/Message.js";
 import Loader from "../components/Loader/Loader.js";
 import Ticket from "../components/Ticket/Ticket.js";
 import Meta from "../components/Meta/Meta.js";
-import "./dashboard.css"
-import axios from "axios"
+import "./dashboard.css";
+import axios from "axios";
+import NotificationAlert from "react-notification-alert";
+
 
 function Dashboard({ match }) {
+  const [copied,setCopied]=useState(false)
+
   const keyword = match.params.keyword;
 
   const pageNumber = match.params.pageNumber || 1;
@@ -139,197 +145,252 @@ function Dashboard({ match }) {
     window.location.reload();
   };
 
+  console.log(tickets);
 
-  const saveTemplate=()=>{
-    console.log(tickets) // axios.post('http://localhost:5000/api/template',tickets)
-  axios.post('http://localhost:5000/api/template',tickets)
+  const saveTemplate = () => {
+    axios
+      .post(`${SERVER}/api/template`)
+      .then(function (response) {
+        axios.post(
+          `${SERVER}/api/tickets/addtemp`,{item:response.data._id}
+        ).then(notify('tc','Template Saved'));
 
-  }
+        // console.log("pushing in this ticket",ticket.isSelected)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
-
+  const notificationAlertRef = React.useRef(null);
+  const notify = (place,message) => {
+    var color = Math.floor(Math.random() * 5 + 1);
+    var type;
+    var message;
+    switch (color) {
+      
+      case 1:
+        type = "success";
+        break;
+      case 2:
+        type = "danger";
+        break;
+      case 4:
+        type = "warning";
+        break;
+      case 5:
+        type = "info";
+        break;
+      default:
+        break;
+    }
+    var options = {};
+    options = {
+      place: place,
+      
+      message: message,
+      type: type,
+      icon: "nc-icon nc-bell-55",
+      autoDismiss: 7,
+    };
+    notificationAlertRef.current.notificationAlert(options);
+  };
+  const text="hello world"
   return (
     <>
-    <Meta></Meta>
+      <Meta></Meta>
       {loading ? (
         <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
-      <Container fluid>
-        <Row>
-          <Col lg="3" sm="6">
-            <Card className="card-stats">
-              <Card.Body>
-                <Row>
-                  <Col xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-chart text-warning"></i>
-                    </div>
-                  </Col>
-                  <Col xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Number of Items</p>
-                      <Card.Title as="h4">{tickets.length}</Card.Title>
-                    </div>
-                  </Col>
-                </Row>
-              </Card.Body>
-              <Card.Footer>
-                <hr></hr>
-                <div className="stats">
-                  <i className="fas fa-redo mr-1"></i>
-                  Update Now
-                </div>
-              </Card.Footer>
-            </Card>
-          </Col>
-          <Col lg="3" sm="6">
-            <Card className="card-stats">
-              <Card.Body>
-                <Row>
-                  <Col xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-light-3 text-success"></i>
-                    </div>
-                  </Col>
-                  <Col xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Create</p>
-                      <Card.Title as="h4"> {localStorage.getItem("response") ? (
+        <Container fluid>
+           <div className="rna-container">
+        <NotificationAlert ref={notificationAlertRef} />
+      </div>
+          <Row>
+           <Button href="https://ticketupdater.herokuapp.com/api/sendmail">Click Button</Button>
+       
+
+ 
+            <Col lg="3" sm="6">
+              <Card className="card-stats">
+                <Card.Body>
+                  <Row>
+                    <Col xs="5">
+                      <div className="icon-big text-center icon-warning">
+                        <i className="nc-icon nc-chart text-warning"></i>
+                      </div>
+                    </Col>
+                    <Col xs="7">
+                      <div className="numbers">
+                        <p className="card-category">Number of Items</p>
+                        <Card.Title as="h4">{tickets.length}</Card.Title>
+                      </div>
+                    </Col>
+                  </Row>
+                </Card.Body>
+                <Card.Footer>
+                  <hr></hr>
+                  <div className="stats">
+                    <i className="fas fa-redo mr-1"></i>
+                    Update Now
+                  </div>
+                </Card.Footer>
+              </Card>
+            </Col>
+            <Col lg="3" sm="6">
+              <Card className="card-stats">
+                <Card.Body>
+                  <Row>
+                    <Col xs="5">
+                      <div className="icon-big text-center icon-warning">
+                        <i className="nc-icon nc-light-3 text-success"></i>
+                      </div>
+                    </Col>
+                    <Col xs="7">
+                      <div className="numbers">
+                        <p className="card-category">Create</p>
+                        <Card.Title as="h4">
+                          {" "}
+                          {localStorage.getItem("response") ? (
                             <Button
                               className="btn-sm"
                               onClick={createProductHandler}
                             >
-                              Create  Row
+                              Create Row
                             </Button>
                           ) : (
                             <h6>You must be admin to create </h6>
-                          )}</Card.Title>
-                    </div>
-                  </Col>
-                </Row>
-              </Card.Body>
-              <Card.Footer>
-                <hr></hr>
-                <div className="stats">
-                  <i className="far fa-calendar-alt mr-1"></i>
-                  Last day
-                </div>
-              </Card.Footer>
-            </Card>
-          </Col>
-          <Col lg="3" sm="6">
-            <Card className="card-stats">
-              <Card.Body>
-                <Row>
-                  <Col xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-vector text-danger"></i>
-                    </div>
-                  </Col>
-                  <Col xs="7">
-                    <div className="numbers">
-                      <p className="card-category">User Details</p>
-                      <Card.Title as="h4">  {comment ? comment.data.user.name : "Please Login"}</Card.Title>
-                    </div>
-                  </Col>
-                </Row>
-              </Card.Body>
-              <Card.Footer>
-                <hr></hr>
-                <div className="stats">
-                  <i className="far fa-clock-o mr-1"></i>
-                  {comment ? comment.data.user.email : ""}
-                </div>
-              </Card.Footer>
-            </Card>
-          </Col>
-          <Col lg="3" sm="6">
-            <Card className="card-stats">
-              <Card.Body>
-                <Row>
-                  <Col xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-favourite-28 text-primary"></i>
-                    </div>
-                  </Col>
-                  <Col xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Delete All</p>
-                      <Card.Title as="h4">{localStorage.getItem("response") ? (
-                              <Button
-                                variant="danger"
-                                className="btn-sm"
-                                onClick={deleteAll}
-                              >
-                                Delete All Rows
-                              </Button>
-                            ) : (
-                              <h6>You must be admin to Delete</h6>
-                            )}</Card.Title>
-                    </div>
-                  </Col>
-                </Row>
-              </Card.Body>
-              <Card.Footer>
-                <hr></hr>
-                <div className="stats">
-                  <i className="fas fa-redo mr-1"></i>
-                  Update now
-                </div>
-              </Card.Footer>
-            </Card>
-          </Col>
-          <Col lg="3" sm="6">
-            <Card className="card-stats">
-              <Card.Body>
-                <Row>
-                  <Col xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-favourite-28 text-primary"></i>
-                    </div>
-                  </Col>
-                  <Col xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Save Current Template</p>
-                      <Card.Title as="h4">{localStorage.getItem("response") ? (
-                              <Button
-                              variant="contained"
-                                onClick={saveTemplate}
-                              >
-                               Save Template
-                              </Button>
-                            ) : (
-                              <h6>You must be admin to Delete</h6>
-                            )}</Card.Title>
-                    </div>
-                  </Col>
-                </Row>
-              </Card.Body>
-              <Card.Footer>
-                <hr></hr>
-                <div className="stats">
-                  <i className="fas fa-redo mr-1"></i>
-                  Update now
-                </div>
-              </Card.Footer>
-            </Card>
-          </Col>
-        </Row>
-      
+                          )}
+                        </Card.Title>
+                      </div>
+                    </Col>
+                  </Row>
+                </Card.Body>
+                <Card.Footer>
+                  <hr></hr>
+                  <div className="stats">
+                    <i className="far fa-calendar-alt mr-1"></i>
+                    Last day
+                  </div>
+                </Card.Footer>
+              </Card>
+            </Col>
+            <Col lg="3" sm="6">
+              <Card className="card-stats">
+                <Card.Body>
+                  <Row>
+                    <Col xs="5">
+                      <div className="icon-big text-center icon-warning">
+                        <i className="nc-icon nc-vector text-danger"></i>
+                      </div>
+                    </Col>
+                    <Col xs="7">
+                      <div className="numbers">
+                        <p className="card-category">User Details</p>
+                        <Card.Title as="h4">
+                          {" "}
+                          {comment ? comment.data.user.name : "Please Login"}
+                        </Card.Title>
+                      </div>
+                    </Col>
+                  </Row>
+                </Card.Body>
+                <Card.Footer>
+                  <hr></hr>
+                  <div className="stats">
+                    <i className="far fa-clock-o mr-1"></i>
+                    {comment ? comment.data.user.email : ""}
+                  </div>
+                </Card.Footer>
+              </Card>
+            </Col>
+            <Col lg="3" sm="6">
+              <Card className="card-stats">
+                <Card.Body>
+                  <Row>
+                    <Col xs="5">
+                      <div className="icon-big text-center icon-warning">
+                        <i className="nc-icon nc-favourite-28 text-primary"></i>
+                      </div>
+                    </Col>
+                    <Col xs="7">
+                      <div className="numbers">
+                        <p className="card-category">Delete All</p>
+                        <Card.Title as="h4">
+                          {localStorage.getItem("response") ? (
+                            <Button
+                              variant="danger"
+                              className="btn-sm"
+                              onClick={deleteAll}
+                            >
+                              Delete All Rows
+                            </Button>
+                          ) : (
+                            <h6>You must be admin to Delete</h6>
+                          )}
+                        </Card.Title>
+                      </div>
+                    </Col>
+                  </Row>
+                </Card.Body>
+                <Card.Footer>
+                  <hr></hr>
+                  <div className="stats">
+                    <i className="fas fa-redo mr-1"></i>
+                    Update now
+                  </div>
+                </Card.Footer>
+              </Card>
+            </Col>
+            <Col lg="3" sm="6">
+              <Card className="card-stats">
+                <Card.Body>
+                  <Row>
+                    <Col xs="5">
+                      <div className="icon-big text-center icon-warning">
+                        <i className="nc-icon nc-favourite-28 text-primary"></i>
+                      </div>
+                    </Col>
+                    <Col xs="7">
+                      <div className="numbers">
+                        <p className="card-category">Save Current Template</p>
+                        <Card.Title as="h4">
+                          {localStorage.getItem("response") ? (
+                            <Button variant="contained" onClick={saveTemplate}>
+                              Save Template
+                            </Button>
+                          ) : (
+                            <h6>You must be admin to Delete</h6>
+                          )}
+                        </Card.Title>
+                      </div>
+                    </Col>
+                  </Row>
+                </Card.Body>
+                <Card.Footer>
+                  <hr></hr>
+                  <div className="stats">
+                    <i className="fas fa-redo mr-1"></i>
+                    Update now
+                  </div>
+                </Card.Footer>
+              </Card>
+            </Col>
+          </Row>
 
-        <Row>
-        {tickets &&
+          <Row>
+            {tickets &&
               tickets.map((ticket) => (
                 <Col key={ticket._id} md={12}>
                   <Ticket ticket={ticket} />
                 </Col>
               ))}
-        </Row>
-      </Container>
-       )}
+          </Row>
+        </Container>
+      )}
     </>
-      
   );
 }
 

@@ -96,7 +96,7 @@ export const createTicket = () => async (dispatch) => {
       type: TICKET_CREATE_REQUEST,
     });
 
-    const { data } = await axios.post(`http://localhost:5000/api/tickets`, {});
+    const { data } = await axios.post(`${SERVER}/api/tickets`, {});
 
     dispatch({
       type: TICKET_CREATE_SUCCESS,

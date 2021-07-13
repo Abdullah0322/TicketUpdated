@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Row,
-  Col,
-
-  Table
-} from "react-bootstrap";
+import { Row, Col, Table } from "react-bootstrap";
 import Message from "../components/Message/Message.js";
 import Loader from "../components/Loader/Loader.js";
 import Ticket from "../components/Ticket/Ticket.js";
 import Meta from "../components/Meta/Meta.js";
 import axios from "axios";
 import { listTemplateDetails } from "../actions/templateActions";
+import SERVER from "../globals";
+
 const getTickets = async () => {
   const data = await axios.get(
     `http://localhost:5000/api/template/60e82171bf070c20d191ad3a`
@@ -36,43 +33,54 @@ const TemplateScreen = ({ history, match }) => {
     }
   }, [dispatch, match]);
 
-  console.log(template.tickets)
-  
+  console.log(template.tickets);
+
   return (
-
     <div>
-      {" "}
-      
-      <Row>
-      {template.tickets &&
-                template.tickets.map((head, i) => (
-                 <Table className="table table-borderless" variant="dark">
-          <thead>
-            <tr>
-             {head.heading.map((hea)=>(
-               <th><h6 className="head">{hea}</h6></th>  
-             ))}
-            </tr>
-          </thead>
-          <tbody>
-          <tr>
-             {head.body.map((hea)=>(
-               <td><h6>{hea}</h6></td>  
-             ))}
-            </tr>
-            <tr>
-             {head.heading2.map((hea)=>(
-               <td><h6 className="head">{hea}</h6></td>  
-             ))}
-            </tr>
+      <Meta></Meta>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant="danger">{error}</Message>
+      ) : (
+        <Row>
+          {template.tickets &&
+            template.tickets.map((head, i) => (
+              <Table className="table table-borderless" variant="dark">
+                <thead>
+                  <tr>
+                    {head.heading.map((hea) => (
+                      <th>
+                        <h6 className="head">{hea}</h6>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    {head.body.map((hea) => (
+                      <td>
+                        <h6>{hea}</h6>
+                      </td>
+                    ))}
+                  </tr>
+                  <tr>
+                    {head.heading2.map((hea) => (
+                      <td>
+                        <h6 className="head">{hea}</h6>
+                      </td>
+                    ))}
+                  </tr>
 
-            <tr>
-             {head.body2.map((hea)=>(
-               <td><h6 className="head">{hea}</h6></td>  
-             ))}
-            </tr>
-          </tbody>
-          {/* <tbody>
+                  <tr>
+                    {head.body2.map((hea) => (
+                      <td>
+                        <h6>{hea}</h6>
+                      </td>
+                    ))}
+                  </tr>
+                </tbody>
+                {/* <tbody>
             <tr>
               {ticket.body.map((body, i) => (
                 <td key={i}>
@@ -99,11 +107,10 @@ const TemplateScreen = ({ history, match }) => {
               ))}
             </tr>
           </tbody> */}
-        </Table>
-                ))}
-        
-      </Row>
-
+              </Table>
+            ))}
+        </Row>
+      )}
     </div>
   );
 };

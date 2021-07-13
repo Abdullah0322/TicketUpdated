@@ -98,16 +98,39 @@ table th {
   }
 }
     </style>
+    <script>
+     function copytable(el) {
+    var urlField = document.getElementById(el)   
+    var range = document.createRange()
+    range.selectNode(urlField)
+    window.getSelection().addRange(range) 
+    document.execCommand('copy')
+
+}
+
+function emailCurrentPage() { window.location.href = "mailto:bob@bob.com?subject=" + document.title +
+"&body=" + encodeURI(document.location);
+this.document.execCommand("SelectAll", true);
+this.document.execCommand("Copy", true);
+this.document.execCommand("Paste", true);
+{ }
+}
+const val="ok"
+
+      </script>
 </head>
 <body>
+
   
 <h1>Daily Ticket Update</h1>
-    
+<input type=button value="Copy to Clipboard" onClick="copytable('stats')">
+<a href="mailto:info@w3docs.com?cc=secondemail@example.com, anotheremail@example.com, &bcc=lastemail@example.com&subject=Mail from our Website&body=stats">Send Email</a>
+<div id="stats">    
 <% ticketData.forEach(function(ticket){ %>
 <br>
   <hr>
 
-<table>
+<table >
   
   <thead>
     <tr>
@@ -136,5 +159,6 @@ table th {
   </tbody>
 </table>
 <% })%>
+</div>
 </body>
 </html>

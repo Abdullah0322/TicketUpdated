@@ -1,4 +1,5 @@
 import axios from "axios";
+import SERVER from "../globals";
 
 import{
 
@@ -17,7 +18,7 @@ export const listTemplates =
       dispatch({ type: TEMPLATE_LIST_REQUEST });
 
       const { data } = await axios.get(
-        `http://localhost:5000/api/template`
+        `${SERVER}/api/template`
       );
 
       dispatch({
@@ -41,7 +42,7 @@ export const listTemplates =
     try {
       dispatch({ type: TEMPLATE_DETAILS_REQUEST })
   
-      const { data } = await axios.get(`http://localhost:5000/api/template/${id}`)
+      const { data } = await axios.get(`${SERVER}/api/template/${id}`)
   
       dispatch({
         type: TEMPLATE_DETAILS_SUCCESS,

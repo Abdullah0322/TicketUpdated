@@ -15,7 +15,7 @@ const Hello = (ticketData) => {
            <div>
            <table style="width:100%">
            <tr>
-             <th>${ticketData}</th>
+             <th>${ticketData[0].headin}</th>
              <th>Lastname</th>
              <th>Age</th>
            </tr>

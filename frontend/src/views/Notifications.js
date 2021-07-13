@@ -23,7 +23,7 @@ import Ticket from "../components/Ticket/Ticket.js";
 import Meta from "../components/Meta/Meta.js";
 import Template from "components/Template/Template";
 
-function Notifications({ match }) {
+function Notifications({ match,history,location }) {
   const keyword = match.params.keyword;
 
   const pageNumber = match.params.pageNumber || 1;
@@ -31,9 +31,26 @@ function Notifications({ match }) {
 
   const templateList = useSelector((state) => state.templateList);
   let { loading, error, templates, page, pages } = templateList;
+
+  const redirect = location.search ? location.search.split("=")[1] : "/login";
+
+  const templateDelete = useSelector((state) => state.templateDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = templateDelete;
+  const isLoggedIn = () => {
+    return localStorage.getItem("response") ? true : false;
+  };
+
   useEffect(() => {
+    if (!isLoggedIn()) {
+      history.push(redirect);
+    
+    }
     dispatch(listTemplates(keyword, pageNumber));
-  }, [dispatch, keyword, pageNumber]);
+  }, [dispatch, keyword, pageNumber,successDelete]);
   console.log(templates);
   return (
     <>

@@ -22,11 +22,22 @@ const getTickets = async () => {
     </div>
   );
 };
-const TemplateScreen = ({ history, match }) => {
+const TemplateScreen = ({ history,location, match }) => {
   const dispatch = useDispatch();
 
   const templateDetails = useSelector((state) => state.templateDetails);
   const { loading, error, template } = templateDetails;
+  const isLoggedIn = () => {
+    return localStorage.getItem("response") ? true : false;
+  };
+  const redirect = location.search ? location.search.split("=")[1] : "/login";
+  useEffect(() => {
+    if (!isLoggedIn()) {
+      history.push(redirect);
+    
+    }
+  
+  }, []);
   useEffect(() => {
     if (!template._id || template._id !== match.params.id) {
       dispatch(listTemplateDetails(match.params.id));

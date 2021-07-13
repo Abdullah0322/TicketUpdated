@@ -4,7 +4,8 @@ import {
 
     createTemplate,
     getTemplate,
-    getTemp
+    getTemp,
+    deleteTemplate
 } from "../controllers/templeteController.js"
 
 
@@ -13,5 +14,7 @@ router.post('/',createTemplate)
 router.get('/:id', getTemplate)
 
 router.get('/',getTemp)
+
+router.delete('/:id',deleteTemplate)
 
 export default router

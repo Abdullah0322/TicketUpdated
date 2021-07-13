@@ -18,7 +18,8 @@ import {
 import Meta from "Meta/Meta";
 import SERVER from "globals";
 
-function Icons() {
+function Icons({history,location}) {
+
   const [name,setName]=useState("");
   const [email,setEmail]=useState("");
   const [cc,setCC]=useState("")
@@ -79,6 +80,17 @@ else{
     };
     notificationAlertRef.current.notificationAlert(options);
   };
+  const isLoggedIn = () => {
+    return localStorage.getItem("response") ? true : false;
+  };
+  const redirect = location.search ? location.search.split("=")[1] : "/login";
+  useEffect(() => {
+    if (!isLoggedIn()) {
+      history.push(redirect);
+    
+    }
+  
+  }, []);
 
   return (
     <>

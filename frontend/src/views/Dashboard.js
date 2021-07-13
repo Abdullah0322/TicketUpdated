@@ -35,8 +35,7 @@ import axios from "axios";
 import NotificationAlert from "react-notification-alert";
 
 
-function Dashboard({ match }) {
-  const [copied,setCopied]=useState(false)
+function Dashboard({ match,location, history }) {
 
   const keyword = match.params.keyword;
 
@@ -109,8 +108,16 @@ function Dashboard({ match }) {
 
   const [localtickets, setTickets] = useState([]);
   let comment = JSON.parse(localStorage.getItem("response"));
+  const redirect = location.search ? location.search.split("=")[1] : "/login";
+  const isLoggedIn = () => {
+    return localStorage.getItem("response") ? true : false;
+  };
 
   useEffect(() => {
+    if (!isLoggedIn()) {
+      history.push(redirect);
+    
+    }
     dispatch(listTickets(keyword, pageNumber));
   }, [
     dispatch,

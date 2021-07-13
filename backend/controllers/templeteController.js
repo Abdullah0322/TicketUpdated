@@ -28,6 +28,18 @@ console.log(tickets)
 
  res.json({ tickets });
 });
+
+const deleteTemplate = asyncHandler(async (req, res) => {
+  const template = await Template.findById(req.params.id);
+
+  if (template) {
+    await template.remove();
+    res.json({ message: "Template removed" });
+  } else {
+    res.status(404);
+    throw new Error("Template not found");
+  }
+});
 const getTemp = asyncHandler(async (req, res) => {
   // const template = await Template.find({}).populate("tickets._id")
   // console.log(template)
@@ -45,4 +57,4 @@ const getTemp = asyncHandler(async (req, res) => {
  res.json({ templates });
 });
 
-export { createTemplate, getTemplate ,getTemp};
+export { createTemplate, getTemplate ,getTemp,deleteTemplate};

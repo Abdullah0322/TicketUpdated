@@ -14,7 +14,8 @@ import {
  import { composeWithDevTools } from 'redux-devtools-extension'
  import {
    templateDetailsReducer,
-templateListReducer
+templateListReducer,
+templateDeleteReducer
  } from "./reducers/templateReducers"
 
   const reducer = combineReducers({
@@ -28,7 +29,8 @@ templateListReducer
      ticketHeading2Delete:ticketHeading2DeleteReducer,
      ticketDuplicate:ticketDuplicateReducer,
      templateList:templateListReducer,
-     templateDetails:templateDetailsReducer
+     templateDetails:templateDetailsReducer,
+     templateDelete:templateDeleteReducer
   
 
    })

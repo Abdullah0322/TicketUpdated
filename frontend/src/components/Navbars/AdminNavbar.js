@@ -1,21 +1,25 @@
-
 import React, { Component } from "react";
 import { useLocation } from "react-router-dom";
-import { Navbar, Container, Nav, Dropdown, Button,NavDropdown } from "react-bootstrap";
-import { LinkContainer } from 'react-router-bootstrap'
+import {
+  Navbar,
+  Container,
+  Nav,
+  Dropdown,
+  Button,
+  NavDropdown,
+} from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 
 import routes from "routes.js";
 
-const logout = () => {
+const logout = ({history}) => {
   localStorage.removeItem("response");
   window.location.reload();
 };
 let comment = JSON.parse(localStorage.getItem("response"));
-  console.log(comment);
+console.log(comment);
 
-
-function Header() {
-  
+function Header({history}) {
   const location = useLocation();
   const mobileSidebarToggle = (e) => {
     e.preventDefault();
@@ -56,19 +60,13 @@ function Header() {
             {getBrandText()}
           </Navbar.Brand>
         </div>
-       
+
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="nav mr-auto" navbar>
-            
-            
-          </Nav>
+          <Nav className="nav mr-auto" navbar></Nav>
           <Nav className="ml-auto" navbar>
-               
-          
-                
             <Nav.Item>
-                {comment? (
-                <NavDropdown title={comment.data.user.name} id='username'>
+              {comment ? (
+                <NavDropdown title={comment.data.user.name} id="username">
                   <NavDropdown.Item onClick={logout}>
                     {`Logout`}
                   </NavDropdown.Item>
@@ -76,10 +74,7 @@ function Header() {
               ) : (
                 ""
               )}
-               
-            
-                </Nav.Item>
-          
+            </Nav.Item>
           </Nav>
         </Navbar.Collapse>
       </Container>

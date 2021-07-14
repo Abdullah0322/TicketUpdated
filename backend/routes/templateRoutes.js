@@ -13,7 +13,7 @@ router.post('/',createTemplate)
 
 router.get('/:id', getTemplate)
 
-router.get('/',getTemp)
+router.get('/all/:id',getTemp)
 
 router.delete('/:id',deleteTemplate)
 

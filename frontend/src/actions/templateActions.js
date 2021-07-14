@@ -14,12 +14,13 @@ import {
 } from "../constants/templateConstants";
 
 export const listTemplates =
-  (keyword = "", pageNumber = "") =>
+  (keyword = "", pageNumber = "",id) =>
   async (dispatch) => {
     try {
       dispatch({ type: TEMPLATE_LIST_REQUEST });
-
-      const { data } = await axios.get(`${SERVER}/api/template`);
+      const user=JSON.parse(localStorage.getItem("response"));
+      const id=user.data.user._id
+      const { data } = await axios.get(`${SERVER}/api/template/all/${id}`);
 
       dispatch({
         type: TEMPLATE_LIST_SUCCESS,

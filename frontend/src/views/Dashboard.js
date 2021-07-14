@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import {CopyToClipboard} from 'react-copy-to-clipboard';
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import SERVER from "../globals";
-
-
 // react-bootstrap components
 import {
   Badge,
@@ -24,19 +22,19 @@ import {
   listTickets,
   deleteTicket,
   createTicket,
+  listTicketsall,
 } from "../actions/ticketActions";
 
 import Message from "../components/Message/Message.js";
 import Loader from "../components/Loader/Loader.js";
 import Ticket from "../components/Ticket/Ticket.js";
+import Superview from "../components/Superview/Superview.js";
 import Meta from "../components/Meta/Meta.js";
 import "./dashboard.css";
 import axios from "axios";
 import NotificationAlert from "react-notification-alert";
 
-
-function Dashboard({ match,location, history }) {
-
+function Dashboard({ match, location, history }) {
   const keyword = match.params.keyword;
 
   const pageNumber = match.params.pageNumber || 1;
@@ -44,7 +42,10 @@ function Dashboard({ match,location, history }) {
   const dispatch = useDispatch();
 
   const ticketList = useSelector((state) => state.ticketList);
+
   let { loading, error, tickets, page, pages } = ticketList;
+
+  // let { loading, error, tickets, page, pages } = ticketListall;
 
   const ticketDelete = useSelector((state) => state.ticketDelete);
   const {
@@ -116,9 +117,11 @@ function Dashboard({ match,location, history }) {
   useEffect(() => {
     if (!isLoggedIn()) {
       history.push(redirect);
-    
     }
     dispatch(listTickets(keyword, pageNumber));
+    comment && comment.data.user.isAdmin == true
+      ? dispatch(listTicketsall(keyword, pageNumber))
+      : dispatch(listTickets(keyword, pageNumber));
   }, [
     dispatch,
     keyword,
@@ -130,21 +133,17 @@ function Dashboard({ match,location, history }) {
     ticketDuplicate,
     // successHeadingCreate,
     successUpdate,
-    // successHeading2Create,
-    // successHeadingDelete,
-    // successHeading2Delete,
   ]);
-
-  useEffect(() => {
-    setTickets(tickets);
-  }, [tickets]);
 
   // useEffect(()=>{
 
   // },[tickets])
 
   const createProductHandler = () => {
-    dispatch(createTicket());
+    const user = JSON.parse(localStorage.getItem("response"));
+    const id = user.data.user._id;
+    console.log();
+    dispatch(createTicket(id));
   };
 
   const deleteAll = () => {
@@ -155,12 +154,14 @@ function Dashboard({ match,location, history }) {
   console.log(tickets);
 
   const saveTemplate = () => {
+    const user = JSON.parse(localStorage.getItem("response"));
+    const id = user.data.user._id;
     axios
-      .post(`${SERVER}/api/template`)
+      .post(`${SERVER}/api/template`, { id })
       .then(function (response) {
-        axios.post(
-          `${SERVER}/api/tickets/addtemp`,{item:response.data._id}
-        ).then(notify('tc','Template Saved'));
+        axios
+          .post(`${SERVER}/api/tickets/addtemp`, { item: response.data._id })
+          .then(notify("tc", "Template Saved"));
 
         // console.log("pushing in this ticket",ticket.isSelected)
       })
@@ -170,12 +171,11 @@ function Dashboard({ match,location, history }) {
   };
 
   const notificationAlertRef = React.useRef(null);
-  const notify = (place,message) => {
+  const notify = (place, message) => {
     var color = Math.floor(Math.random() * 5 + 1);
     var type;
     var message;
     switch (color) {
-      
       case 1:
         type = "success";
         break;
@@ -194,7 +194,7 @@ function Dashboard({ match,location, history }) {
     var options = {};
     options = {
       place: place,
-      
+
       message: message,
       type: type,
       icon: "nc-icon nc-bell-55",
@@ -202,7 +202,7 @@ function Dashboard({ match,location, history }) {
     };
     notificationAlertRef.current.notificationAlert(options);
   };
-  const text="hello world"
+  const text = "hello world";
   return (
     <>
       <Meta></Meta>
@@ -212,14 +212,12 @@ function Dashboard({ match,location, history }) {
         <Message variant="danger">{error}</Message>
       ) : (
         <Container fluid>
-           <div className="rna-container">
-        <NotificationAlert ref={notificationAlertRef} />
-      </div>
+          <div className="rna-container">
+            <NotificationAlert ref={notificationAlertRef} />
+          </div>
           <Row>
-           <Button href="https://ticketupdater.herokuapp.com/api/sendmail">Click Button</Button>
-       
+            {/* <Button href="https://ticketupdater.herokuapp.com/api/sendmail">Click Button</Button> */}
 
- 
             <Col lg="3" sm="6">
               <Card className="card-stats">
                 <Card.Body>
@@ -388,12 +386,14 @@ function Dashboard({ match,location, history }) {
           </Row>
 
           <Row>
-            {tickets &&
-              tickets.map((ticket) => (
-                <Col key={ticket._id} md={12}>
-                  <Ticket ticket={ticket} />
-                </Col>
-              ))}
+            {comment && comment && comment.data.user.isAdmin == true
+              ? <Superview/>
+              : tickets &&
+                tickets.map((ticket) => (
+                  <Col key={ticket._id} md={12}>
+                    <Ticket ticket={ticket} />
+                  </Col>
+                ))}
           </Row>
         </Container>
       )}

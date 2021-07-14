@@ -20,46 +20,43 @@ const googlelogin = asyncHandler(async (req, res) => {
       console.log(response.payload);
 
       if (email_verified) {
-
-
-     User.findOne({email}).exec((err,user)=>{
-
-      if(err){
-
-        return res.status(400).json({
-
-
-          error:"SOmething went wrong"
-        })
-      }
-      else{
-
-        if(user){
-          const token= generateToken(user._id)
-          const {_id,name,email}=user;
-          res.json({token,user:{_id,name,email}})
-        }
-        else{
-          let password=email+ process.env.JWT_SECRET;
-          let newUser=new User({name,email,password});
-          newUser.save((err,data)=>{
-            if(err){
-
-              return res.status(400).json({
-      
-      
-                error:"SOmething went wrong"
-              })  
+        User.findOne({ email }).exec((err, user) => {
+          if (err) {
+            return res.status(400).json({
+              error: "SOmething went wrong",
+            });
+          } else {
+            if (user) {
+              const token = generateToken(user._id);
+              const { _id, name, email, isAdmin } = user;
+              res.json({ token, user: { _id, name, email, isAdmin } });
+            } else {
+              let password = email + process.env.JWT_SECRET;
+              let newUser = new User({ name, email, password, isAdmin });
+              newUser.save((err, data) => {
+                if (err) {
+                  return res.status(400).json({
+                    error: "SOmething went wrong",
+                  });
+                }
+                const token = generateToken(data._id);
+                const { _id, name, email, isAdmin } = newUser;
+                res.json({ token, user: { _id, name, email, isAdmin } });
+              });
             }
-            const token= generateToken(data ._id)
-            const {_id,name,email}= newUser;
-            res.json({token,user:{_id,name,email}})
-          })
-        }
-      }
-     })
+          }
+        });
       }
     });
 });
+const getUsers = asyncHandler(async (req, res) => {
+ 
 
-export { googlelogin };
+  const users =await User.find({})
+
+ res.json({ users });
+});
+
+
+
+export { googlelogin,getUsers };

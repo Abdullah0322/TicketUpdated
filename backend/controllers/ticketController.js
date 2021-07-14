@@ -1,5 +1,36 @@
 import asyncHandler from "express-async-handler";
 import Ticket from "../models/ticketModel.js";
+import User from "../models/userModel.js";
+
+
+const getallTickets = asyncHandler(async (req, res) => {
+  const pageSize = 1000;
+  const page = Number(req.query.pageNumber) || 1;
+
+  const keyword = req.query.keyword
+    ? {
+        name: {
+          $regex: req.query.keyword,
+          $options: "i",
+        },
+      }
+    : {};
+
+  const count = await Ticket.countDocuments({ ...keyword });
+
+  const tickets = await Ticket.find({ ...keyword }).populate("user")
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+    .where({ isDeleted: false });
+
+  // const supertickets= await Ticket.find({})
+
+  // console.log(supertickets)
+  res.json({ tickets, page, pages: Math.ceil(count / pageSize) });
+});
+
+
+
 
 const getTickets = asyncHandler(async (req, res) => {
   const pageSize = 1000;
@@ -15,11 +46,15 @@ const getTickets = asyncHandler(async (req, res) => {
     : {};
 
   const count = await Ticket.countDocuments({ ...keyword });
-  const tickets = await Ticket.find({ ...keyword })
+
+  const tickets = await Ticket.find({ user: req.params.id }, { ...keyword })
     .limit(pageSize)
     .skip(pageSize * (page - 1))
     .where({ isDeleted: false });
 
+  // const supertickets= await Ticket.find({})
+
+  // console.log(supertickets)
   res.json({ tickets, page, pages: Math.ceil(count / pageSize) });
 });
 
@@ -81,7 +116,8 @@ const createTicket = asyncHandler(async (req, res) => {
     heading2: ["Ticket URL", "Status", "ETA"],
     body2: ["Sample name", "Sample name", "0 days"],
     isDeleted: false,
-    
+    user: req.body.id,
+    // Createdby:req.body.id
   });
 
   const createdTicket = await ticket.save();
@@ -357,13 +393,8 @@ const isDeleted = asyncHandler(async (req, res) => {
 const isSelected = asyncHandler(async (req, res) => {
   const tickets = await Ticket.find({}).where({ isDeleted: false });
   console.log(tickets);
-const item=req.body
-  tickets.map(
-    (ticket) => (
-      ticket.isSelected.push(item),
-      ticket.save()
-    )
-  );
+  const item = req.body;
+  tickets.map((ticket) => (ticket.isSelected.push(item), ticket.save()));
   res.json(tickets);
 
   // const body = ticket.body;
@@ -382,6 +413,7 @@ const item=req.body
 // });
 
 export {
+  getallTickets,
   getTickets,
   getTicketsById,
   createTicket,

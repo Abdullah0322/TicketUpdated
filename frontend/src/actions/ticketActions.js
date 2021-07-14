@@ -4,6 +4,11 @@ import {
   TICKET_LIST_REQUEST,
   TICKET_LIST_SUCCESS,
   TICKET_LIST_FAIL,
+
+  TICKET_LISTALL_REQUEST,
+  TICKET_LISTALL_SUCCESS,
+  TICKET_LISTALL_FAIL,
+
   TICKET_CREATE_REQUEST,
   TICKET_CREATE_SUCCESS,
   TICKET_CREATE_FAIL,
@@ -21,31 +26,27 @@ import {
   TICKET_UPDATE_SUCCESS,
   TICKET_UPDATE_FAIL,
   TICKET_UPDATE_RESET,
-  
   TICKET_DELETE_HEADING2_REQUEST,
-TICKET_DELETE_HEADING2_SUCCESS,
- TICKET_DELETE_HEADING2_FAIL,
- TICKET_DELETE_HEADING2_RESET,
-
-
- TICKET_DELETE_HEADING_REQUEST,
- TICKET_DELETE_HEADING_SUCCESS,
-TICKET_DELETE_HEADING_FAIL,
- TICKET_DELETE_HEADING_RESET,
-
-TICKET_DUPLICATE_REQUEST,
-TICKET_DUPLICATE_SUCCESS ,
-TICKET_DUPLICATE_FAIL
+  TICKET_DELETE_HEADING2_SUCCESS,
+  TICKET_DELETE_HEADING2_FAIL,
+  TICKET_DELETE_HEADING2_RESET,
+  TICKET_DELETE_HEADING_REQUEST,
+  TICKET_DELETE_HEADING_SUCCESS,
+  TICKET_DELETE_HEADING_FAIL,
+  TICKET_DELETE_HEADING_RESET,
+  TICKET_DUPLICATE_REQUEST,
+  TICKET_DUPLICATE_SUCCESS,
+  TICKET_DUPLICATE_FAIL,
 } from "../constants/ticketConstants";
 
-export const listTickets =
-  (keyword = "", pageNumber = "") =>
+export const listTickets = (keyword = "", pageNumber = "",id) =>
   async (dispatch) => {
     try {
       dispatch({ type: TICKET_LIST_REQUEST });
-
+      const user=JSON.parse(localStorage.getItem("response"));
+      const id=user.data.user._id
       const { data } = await axios.get(
-        `${SERVER}/api/tickets?keyword=${keyword}&pageNumber=${pageNumber}`
+        `${SERVER}/api/tickets/${id}?keyword=${keyword}&pageNumber=${pageNumber}`
       );
 
       dispatch({
@@ -63,6 +64,31 @@ export const listTickets =
       });
     }
   };
+
+  export const listTicketsall = (keyword = "", pageNumber = "") =>
+  async (dispatch) => {
+    try {
+      dispatch({ type:  TICKET_LIST_REQUEST, });
+      const { data } = await axios.get(
+        `${SERVER}/api/tickets?keyword=${keyword}&pageNumber=${pageNumber}`
+      );
+
+      dispatch({
+        type:  TICKET_LIST_SUCCESS,
+        payload: data,
+      });
+      console.log(data);
+    } catch (error) {
+      dispatch({
+        type: TICKET_LIST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
 
 // export const createTicket =
 //   ({ ticketdetails }) =>
@@ -90,13 +116,13 @@ export const listTickets =
 //     }
 //   };
 
-export const createTicket = () => async (dispatch) => {
+export const createTicket = (id) => async (dispatch) => {
   try {
     dispatch({
       type: TICKET_CREATE_REQUEST,
     });
 
-    const { data } = await axios.post(`${SERVER}/api/tickets`, {});
+    const { data } = await axios.post(`${SERVER}/api/tickets`, { id });
 
     dispatch({
       type: TICKET_CREATE_SUCCESS,
@@ -183,7 +209,6 @@ export const deleteTicketHeading = (ticketId) => async (dispatch) => {
   }
 };
 
-
 export const createTicketHeading2 = (ticketId) => async (dispatch) => {
   try {
     dispatch({
@@ -236,7 +261,9 @@ export const updateTicket = (ticket) => async (dispatch) => {
     });
 
     const { data } = await axios.put(
-      `${SERVER}/api/tickets/${ticket._id}/headings/${localStorage.getItem("id")}`,
+      `${SERVER}/api/tickets/${ticket._id}/headings/${localStorage.getItem(
+        "id"
+      )}`,
       ticket
     );
 
@@ -259,8 +286,6 @@ export const updateTicket = (ticket) => async (dispatch) => {
     });
   }
 };
-
-
 
 export const updateTicketbody = (ticket) => async (dispatch) => {
   try {
@@ -293,16 +318,16 @@ export const updateTicketbody = (ticket) => async (dispatch) => {
   }
 };
 
-
 export const duplicateTicket = (ticket) => async (dispatch) => {
   try {
     dispatch({
       type: TICKET_DUPLICATE_REQUEST,
     });
 
-    delete ticket._id
+    delete ticket._id;
     const { data } = await axios.post(
-      `${SERVER}/api/tickets/duplicate`,ticket
+      `${SERVER}/api/tickets/duplicate`,
+      ticket
     );
 
     dispatch({
@@ -310,7 +335,6 @@ export const duplicateTicket = (ticket) => async (dispatch) => {
       payload: data,
     });
     dispatch({ type: TICKET_LIST_SUCCESS, payload: data });
-  
   } catch (error) {
     const message =
       error.response && error.response.data.message

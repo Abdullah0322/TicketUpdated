@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router()
 import {
-
+getallTickets,
 getTickets,
 getTicketsById,
 deleteTicket,
@@ -25,7 +25,9 @@ isSelected
 } from '../controllers/ticketController.js'
 
 
-router.route('/').get(getTickets).post(createTicket)
+router.post('/',createTicket)
+router.get ('/:id',getTickets)
+router.get('/',getallTickets)
 router
   .route('/:id')
   .delete(deleteTicket)

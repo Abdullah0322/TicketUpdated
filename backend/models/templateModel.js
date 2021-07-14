@@ -12,6 +12,10 @@ const templateSchema = mongoose.Schema(
   // tickets:[
   //   {_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Ticket' }}
   // ]
+  user:{
+    ref:'User',
+    type: mongoose.Schema.Types.ObjectId
+    },
 
   },
 

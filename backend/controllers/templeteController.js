@@ -4,6 +4,7 @@ import Template from "../models/templateModel.js";
 
 const createTemplate = asyncHandler(async (req, res) => {
   const template = new Template({
+    user: req.body.id
     // // tickets: [
     // // {
     // //   _id : "60e7141b277fee4a6754bdc3"
@@ -52,7 +53,7 @@ const getTemp = asyncHandler(async (req, res) => {
   //   _id: { $in: ["60e709c37c0eab423103be52", "60e70ee1f2de3d45f9cb495a"] },
   // });
 
-  const templates=await Template.find({})
+  const templates=await Template.find({user:req.params.id})
 
  res.json({ templates });
 });

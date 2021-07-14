@@ -27,8 +27,18 @@ const ticketSchema = mongoose.Schema(
       type: Array,
     },
     time: { type: Date, default: Date.now },
+    
+  
+    user:{
+      ref:'User',
+      type: mongoose.Schema.Types.ObjectId
+      },
+
+      // Createdby:{type:String}
+  
   },
 
+  
   {
     timestamps: true,
   }

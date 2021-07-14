@@ -204,12 +204,14 @@ const Ticket = ({ ticket }) => {
     dispatch(duplicateTicket(ticket));
   };
 
+console.log(ticket.user.email)
   return (
     <div>
       <Row>
         <Table className="table table-borderless" variant="dark">
           <thead>
             <tr>
+             {ticket.user.email}
               {ticket &&
                 ticket.heading.map((head, i) => (
                   <th key={i}>
@@ -240,7 +242,9 @@ const Ticket = ({ ticket }) => {
 
               <th>
                 <div className="edit">
-                  {button == false && localStorage.getItem("response") ? (
+                  {ticket.heading.length == 0 ? (
+                    ""
+                  ) : button == false ? (
                     <Button
                       variant="contained"
                       color="primary"
@@ -295,7 +299,9 @@ const Ticket = ({ ticket }) => {
               ))}
               <td>
                 {" "}
-                {button1 == false && localStorage.getItem("response") ? (
+                {ticket.body.length == 0 ? (
+                  ""
+                ) : button1 == false ? (
                   <Button
                     variant="contained"
                     color="primary"
@@ -345,7 +351,9 @@ const Ticket = ({ ticket }) => {
               ))}
               <td>
                 {" "}
-                {button2 == false && localStorage.getItem("response") ? (
+                {ticket.heading2.length == 0 ? (
+                  ""
+                ) : button2 == false && localStorage.getItem("response") ? (
                   <Button
                     variant="contained"
                     color="primary"
@@ -393,7 +401,9 @@ const Ticket = ({ ticket }) => {
               ))}
               <td>
                 {" "}
-                {button3 == false && localStorage.getItem("response") ? (
+                {ticket.body2.length == 0 ? (
+                  ""
+                ) : button3 == false && localStorage.getItem("response") ? (
                   <Button
                     variant="contained"
                     color="primary"

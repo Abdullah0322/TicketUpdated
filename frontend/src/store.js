@@ -6,6 +6,7 @@ import {
   ticketHeadingCreateReducer,
   ticketHeading2CreateReducer,
      ticketListReducer,  
+     ticketListallReducer,
      ticketUpdateReducer,
      ticketHeadingDeleteReducer,
      ticketHeading2DeleteReducer,
@@ -30,8 +31,8 @@ templateDeleteReducer
      ticketDuplicate:ticketDuplicateReducer,
      templateList:templateListReducer,
      templateDetails:templateDetailsReducer,
-     templateDelete:templateDeleteReducer
-  
+     templateDelete:templateDeleteReducer,
+     ticketListall:ticketListallReducer
 
    })
    const initialState = {

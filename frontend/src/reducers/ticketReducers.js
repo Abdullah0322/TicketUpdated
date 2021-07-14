@@ -3,6 +3,10 @@ import{
     TICKET_LIST_SUCCESS,
     TICKET_LIST_FAIL,
 
+    TICKET_LISTALL_REQUEST,
+    TICKET_LISTALL_SUCCESS,
+    TICKET_LISTALL_FAIL,
+
     TICKET_CREATE_REQUEST,
     TICKET_CREATE_SUCCESS,
     TICKET_CREATE_FAIL,
@@ -59,6 +63,24 @@ export const ticketListReducer = (state = { tickets: [] }, action) => {
           page: action.payload.page,
         }
       case TICKET_LIST_FAIL:
+        return { loading: false, error: action.payload }
+      default:
+        return state
+    }
+  }
+
+  export const ticketListallReducer = (state = { tickets: [] }, action) => {
+    switch (action.type) {
+      case TICKET_LISTALL_REQUEST:
+        return { loading: true, tickets: [] }
+      case TICKET_LISTALL_SUCCESS:
+        return {
+          loading: false,
+          tickets: action.payload.tickets,
+          pages: action.payload.pages,
+          page: action.payload.page,
+        }
+      case TICKET_LISTALL_FAIL:
         return { loading: false, error: action.payload }
       default:
         return state

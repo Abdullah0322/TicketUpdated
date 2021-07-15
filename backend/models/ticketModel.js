@@ -29,12 +29,12 @@ const ticketSchema = mongoose.Schema(
     time: { type: Date, default: Date.now },
     
   
-    user:{
-      ref:'User',
-      type: mongoose.Schema.Types.ObjectId
-      },
+    // user:{
+    //   ref:'User',
+    //   type: mongoose.Schema.Types.ObjectId
+    //   },
 
-      // Createdby:{type:String}
+      Createdby:{type:String}
   
   },
 

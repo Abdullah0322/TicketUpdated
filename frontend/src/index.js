@@ -22,7 +22,6 @@ ReactDOM.render(
 
         <Route path="/login" component={User} exact />
         
-        <Route path="/admin/template/:id" component={TemplateScreen} />
 
         {localStorage.getItem("response") ? (
           <Redirect from="/" to="/admin/dashboard" />

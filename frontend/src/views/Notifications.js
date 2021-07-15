@@ -23,7 +23,7 @@ import Ticket from "../components/Ticket/Ticket.js";
 import Meta from "../components/Meta/Meta.js";
 import Template from "components/Template/Template";
 
-function Notifications({ match,history,location }) {
+function Notifications({ match, history, location }) {
   const keyword = match.params.keyword;
 
   const pageNumber = match.params.pageNumber || 1;
@@ -47,11 +47,12 @@ function Notifications({ match,history,location }) {
   useEffect(() => {
     if (!isLoggedIn()) {
       history.push(redirect);
-    
     }
     dispatch(listTemplates(keyword, pageNumber));
-  }, [dispatch, keyword, pageNumber,successDelete]);
+  }, [dispatch, keyword, pageNumber, successDelete]);
   console.log(templates);
+
+  
   return (
     <>
       <Meta></Meta>

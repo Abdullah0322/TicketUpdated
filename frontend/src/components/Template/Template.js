@@ -22,6 +22,18 @@ import Button from "@material-ui/core/Button";
 import { deleteTemplate } from "actions/templateActions";
 
 const Template = ({ template }) => {
+
+  const UpdateLocal =()=>{
+    var existing = localStorage.getItem('id');
+
+    // If no existing data, use the value by itself
+    // Otherwise, add the new value to it
+    var data = existing ? template._id : existing;
+    
+    // Save back to localStorage
+    localStorage.setItem('id', data);
+
+  }
   const dispatch = useDispatch();
 
   const deleteHandler = (id) => {
@@ -45,7 +57,20 @@ const Template = ({ template }) => {
               </Card.Title>
             </Link>
 
-            <Card.Text as="div">Id : {template._id}</Card.Text>
+            <Card.Text as="div">Id : {template._id}
+            
+            </Card.Text>
+            <br></br>
+            <Button
+                variant="contained"
+                color="primary"
+                size="small"
+              onClick={UpdateLocal}
+              >
+                Clone
+              </Button>
+            <br></br>
+            <br></br>
             {localStorage.getItem("response") ? (
               <Button
                 variant="contained"

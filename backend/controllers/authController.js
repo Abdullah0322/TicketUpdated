@@ -3,7 +3,7 @@ import asyncHandler from "express-async-handler";
 import { OAuth2Client } from "google-auth-library";
 import generateToken from "../utils/generateToken.js";
 import User from "../models/userModel.js";
-
+import Ticket from "../models/ticketModel.js";
 const client = new OAuth2Client(
   "807669913381-iekknmo55r3uv11orerdfm3sbi8v3opo.apps.googleusercontent.com"
 );
@@ -50,13 +50,17 @@ const googlelogin = asyncHandler(async (req, res) => {
     });
 });
 const getUsers = asyncHandler(async (req, res) => {
- 
+  const users = await User.find({});
 
-  const users =await User.find({})
-
- res.json({ users });
+  res.json({ users });
 });
 
+const getTicketsss = asyncHandler(async (req, res) => {
+  const id = User.findById(req.params.id);
+  console.log("id", req.params.id);
+  const tickets = await Ticket.find({ user: req.params.id });
+  console.log(tickets);
+   res.json({ tickets });
+});
 
-
-export { googlelogin,getUsers };
+export { googlelogin, getUsers, getTicketsss };

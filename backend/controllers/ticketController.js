@@ -51,7 +51,7 @@ const getTickets = asyncHandler(async (req, res) => {
     .limit(pageSize)
     .skip(pageSize * (page - 1))
     .where({ isDeleted: false });
-
+    
   // const supertickets= await Ticket.find({})
 
   // console.log(supertickets)
@@ -391,26 +391,13 @@ const isDeleted = asyncHandler(async (req, res) => {
 });
 
 const isSelected = asyncHandler(async (req, res) => {
-  const tickets = await Ticket.find({}).where({ isDeleted: false });
+  const tickets = await Ticket.find({user:req.params.id}).where({ isDeleted: false });
   console.log(tickets);
   const item = req.body;
   tickets.map((ticket) => (ticket.isSelected.push(item), ticket.save()));
   res.json(tickets);
-
-  // const body = ticket.body;
-  // console.log('body: ', body);
-  //let bodyName = ["name","ok","check"]
-
-  // body.splicebody(body.indexOf("sample name"), 1, "newValue");
-  // var arr = new Array(10), anotherArr = [1, 2, 3], result;
 });
-// const updateTicaks = asyncHandler(async (req, res) => {
-//   const tickets = await Ticket.find({}).where({ isDeleted: false });
-//   console.log(tickets);
 
-//   // ticket.isSelected.push(item);
-//   res.status(201).json({ message: "Template Id added" });
-// });
 
 export {
   getallTickets,

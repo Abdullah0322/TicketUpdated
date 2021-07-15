@@ -119,9 +119,7 @@ function Dashboard({ match, location, history }) {
       history.push(redirect);
     }
     dispatch(listTickets(keyword, pageNumber));
-    comment && comment.data.user.isAdmin == true
-      ? dispatch(listTicketsall(keyword, pageNumber))
-      : dispatch(listTickets(keyword, pageNumber));
+  
   }, [
     dispatch,
     keyword,
@@ -147,7 +145,7 @@ function Dashboard({ match, location, history }) {
   };
 
   const deleteAll = () => {
-    axios.delete("https://ticketupdater.herokuapp.com/api/tickets/");
+    axios.delete(`${SERVER}/api/tickets/`);
     window.location.reload();
   };
 
@@ -160,7 +158,7 @@ function Dashboard({ match, location, history }) {
       .post(`${SERVER}/api/template`, { id })
       .then(function (response) {
         axios
-          .post(`${SERVER}/api/tickets/addtemp`, { item: response.data._id })
+          .post(`${SERVER}/api/tickets/addtemp/${id}`, { item: response.data._id })
           .then(notify("tc", "Template Saved"));
 
         // console.log("pushing in this ticket",ticket.isSelected)
@@ -386,9 +384,8 @@ function Dashboard({ match, location, history }) {
           </Row>
 
           <Row>
-            {comment && comment && comment.data.user.isAdmin == true
-              ? <Superview/>
-              : tickets &&
+            {
+              tickets &&
                 tickets.map((ticket) => (
                   <Col key={ticket._id} md={12}>
                     <Ticket ticket={ticket} />

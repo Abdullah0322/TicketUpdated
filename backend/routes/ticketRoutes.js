@@ -46,5 +46,5 @@ router
   router.delete('/',deleteAll)
   router.post('/duplicate',duplicateTicket)
   router.put('/:id/deleteticket',isDeleted)
-  router.post('/addtemp',isSelected)
+  router.post('/addtemp/:id',isSelected)
   export default router

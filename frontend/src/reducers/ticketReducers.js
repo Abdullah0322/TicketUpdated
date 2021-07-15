@@ -69,23 +69,23 @@ export const ticketListReducer = (state = { tickets: [] }, action) => {
     }
   }
 
-  export const ticketListallReducer = (state = { tickets: [] }, action) => {
-    switch (action.type) {
-      case TICKET_LISTALL_REQUEST:
-        return { loading: true, tickets: [] }
-      case TICKET_LISTALL_SUCCESS:
-        return {
-          loading: false,
-          tickets: action.payload.tickets,
-          pages: action.payload.pages,
-          page: action.payload.page,
-        }
-      case TICKET_LISTALL_FAIL:
-        return { loading: false, error: action.payload }
-      default:
-        return state
-    }
-  }
+  // export const ticketListallReducer = (state = { tickets: [] }, action) => {
+  //   switch (action.type) {
+  //     case TICKET_LISTALL_REQUEST:
+  //       return { loading: true, tickets: [] }
+  //     case TICKET_LISTALL_SUCCESS:
+  //       return {
+  //         loading: false,
+  //         tickets: action.payload.tickets,
+  //         pages: action.payload.pages,
+  //         page: action.payload.page,
+  //       }
+  //     case TICKET_LISTALL_FAIL:
+  //       return { loading: false, error: action.payload }
+  //     default:
+  //       return state
+  //   }
+  // }
   
 
   export const ticketCreateReducer = (state = {}, action) => {

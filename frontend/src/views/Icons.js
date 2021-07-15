@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import NotificationAlert from "react-notification-alert";
 import axios from "axios";
+import SERVER from "../globals";
+
 import {
   Badge,
   Button,
@@ -16,7 +18,6 @@ import {
   Col,
 } from "react-bootstrap";
 import Meta from "Meta/Meta";
-import SERVER from "globals";
 
 function Icons({history,location}) {
 
@@ -33,8 +34,11 @@ function Icons({history,location}) {
     cc
   }
   console.log(datatosend)
+
   if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email && cc)){
-    axios.post(`https://ticketupdater.herokuapp.com/api/sendmail` ,datatosend).then(notify("tc",`Email sent to ${email} CC:${cc}`))
+    const user = JSON.parse(localStorage.getItem("response"));
+    const id = user.data.user._id;
+    axios.post(`${SERVER}/api/sendmail/${id}` ,datatosend).then(notify("tc",`Email sent to ${email} CC:${cc}`))
   
   }
   

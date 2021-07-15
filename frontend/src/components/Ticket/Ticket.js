@@ -204,14 +204,12 @@ const Ticket = ({ ticket }) => {
     dispatch(duplicateTicket(ticket));
   };
 
-console.log(ticket.user.email)
   return (
     <div>
       <Row>
         <Table className="table table-borderless" variant="dark">
           <thead>
             <tr>
-             {ticket.user.email}
               {ticket &&
                 ticket.heading.map((head, i) => (
                   <th key={i}>

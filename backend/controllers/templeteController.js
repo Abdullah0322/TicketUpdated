@@ -4,7 +4,7 @@ import Template from "../models/templateModel.js";
 
 const createTemplate = asyncHandler(async (req, res) => {
   const template = new Template({
-    user: req.body.id,
+    Createdby: req.body.id,
     // // tickets: [
     // // {
     // //   _id : "60e7141b277fee4a6754bdc3"
@@ -40,7 +40,13 @@ const deleteTemplate = asyncHandler(async (req, res) => {
   }
 });
 const getTemp = asyncHandler(async (req, res) => {
-  const templates = await Template.find({ user: req.params.id });
+  const templates = await Template.find({ Createdby: req.params.id });
+
+  res.json({ templates });
+});
+
+const CloneTemplate = asyncHandler(async (req, res) => {
+  const templates = await Template.find({ Createdby: req.params.id });
 
   res.json({ templates });
 });

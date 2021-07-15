@@ -18,7 +18,7 @@ const getallTickets = asyncHandler(async (req, res) => {
 
   const count = await Ticket.countDocuments({ ...keyword });
 
-  const tickets = await Ticket.find({ ...keyword }).populate("user")
+  const tickets = await Ticket.find({ ...keyword })
     .limit(pageSize)
     .skip(pageSize * (page - 1))
     .where({ isDeleted: false });
@@ -47,14 +47,13 @@ const getTickets = asyncHandler(async (req, res) => {
 
   const count = await Ticket.countDocuments({ ...keyword });
 
-  const tickets = await Ticket.find({ user: req.params.id }, { ...keyword })
+   
+  
+  const tickets = await Ticket.find({ Createdby: req.params.id }, { ...keyword })
     .limit(pageSize)
     .skip(pageSize * (page - 1))
     .where({ isDeleted: false });
     
-  // const supertickets= await Ticket.find({})
-
-  // console.log(supertickets)
   res.json({ tickets, page, pages: Math.ceil(count / pageSize) });
 });
 
@@ -116,8 +115,8 @@ const createTicket = asyncHandler(async (req, res) => {
     heading2: ["Ticket URL", "Status", "ETA"],
     body2: ["Sample name", "Sample name", "0 days"],
     isDeleted: false,
-    user: req.body.id,
-    // Createdby:req.body.id
+    //user: req.body.id,
+    Createdby:req.body.id
   });
 
   const createdTicket = await ticket.save();
@@ -391,7 +390,7 @@ const isDeleted = asyncHandler(async (req, res) => {
 });
 
 const isSelected = asyncHandler(async (req, res) => {
-  const tickets = await Ticket.find({user:req.params.id}).where({ isDeleted: false });
+  const tickets = await Ticket.find({Createdby:req.params.id}).where({ isDeleted: false });
   console.log(tickets);
   const item = req.body;
   tickets.map((ticket) => (ticket.isSelected.push(item), ticket.save()));

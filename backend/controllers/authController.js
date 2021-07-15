@@ -58,7 +58,7 @@ const getUsers = asyncHandler(async (req, res) => {
 const getTicketsss = asyncHandler(async (req, res) => {
   const id = User.findById(req.params.id);
   console.log("id", req.params.id);
-  const tickets = await Ticket.find({ user: req.params.id });
+  const tickets = await Ticket.find({ Createdby: req.params.id });
   console.log(tickets);
    res.json({ tickets });
 });

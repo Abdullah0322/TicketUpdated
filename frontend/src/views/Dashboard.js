@@ -145,7 +145,7 @@ function Dashboard({ match, location, history }) {
   };
 
   const deleteAll = () => {
-    axios.delete(`${SERVER}/api/tickets/`);
+    axios.delete("https://ticketupdater.herokuapp.com/api/tickets/");
     window.location.reload();
   };
 

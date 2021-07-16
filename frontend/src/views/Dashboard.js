@@ -302,43 +302,7 @@ function Dashboard({ match, location, history }) {
                 </Card.Footer>
               </Card>
             </Col>
-            <Col lg="3" sm="6">
-              <Card className="card-stats">
-                <Card.Body>
-                  <Row>
-                    <Col xs="12">
-                      <div className="numbers">
-                        <p className="card-category">
-                          Current Template:{" "}
-                          {localStorage.getItem("id") == "null" ? (
-                            <h6>Default</h6>
-                          ) : (
-                            localStorage.getItem("id")
-                          )}
-                        </p>
-                        <Card.Title as="h4">
-                          {" "}
-                          {localStorage.getItem("id") == "null" ? (
-                            ""
-                          ) : (
-                            <Button className="btn-sm" onClick={UpdateLocal}>
-                              Return to Default
-                            </Button>
-                          )}
-                        </Card.Title>
-                      </div>
-                    </Col>
-                  </Row>
-                </Card.Body>
-                <Card.Footer>
-                  <hr></hr>
-                  <div className="stats">
-                    <i className="far fa-calendar-alt mr-1"></i>
-                    Last day
-                  </div>
-                </Card.Footer>
-              </Card>
-            </Col>
+           
             <Col lg="3" sm="6">
               <Card className="card-stats">
                 <Card.Body>

@@ -27,15 +27,15 @@ const ticketSchema = mongoose.Schema(
       type: Array,
     },
 
-    isSelectedtemplate:{
-      type:Array,
-    
+    isSelectedticket:{
+      type:Boolean,
+      default:true
     },
     
-    istemplateDeleted: {
-      type: Boolean,
-      default: false,
-    },
+    // istemplateDeleted: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     
   
     // user:{

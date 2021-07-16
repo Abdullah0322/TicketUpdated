@@ -46,25 +46,28 @@ const getTickets = asyncHandler(async (req, res) => {
   var tickets;
   console.log(req.params.id);
 
-  console.log('req.params.templateid: ', req.params.templateid);
-  if (req.params.templateid === "null") {
-    console.log('sssss')
-    tickets = await Ticket.find({ Createdby: req.params.id }, { ...keyword })
-      .limit(pageSize)
-      .skip(pageSize * (page - 1))
-      .where({ isDeleted: false });
-  } else {
-    tickets = await Ticket.find(
-      {
-        Createdby: req.params.id,
-        "isSelectedtemplate.item": { $in: [req.params.templateid] }
-      },
-      { ...keyword }
-    )
-      .limit(pageSize)
-      .skip(pageSize * (page - 1));
-  }
+  console.log("req.params.templateid: ", req.params.templateid);
+  // if (req.params.templateid === "null") {
+  //   console.log("sssss");
+  //   tickets = await Ticket.find({ Createdby: req.params.id }, { ...keyword })
+  //     .limit(pageSize)
+  //     .skip(pageSize * (page - 1))
+  //     .where({ isDeleted: false });
+  // } else {
+  //   tickets = await Ticket.find(
+  //     {
+  //       Createdby: req.params.id,
+  //       "isSelectedtemplate.item": { $in: [req.params.templateid] },
+  //     },
+  //     { ...keyword }
+  //   )
+  //     .limit(pageSize)
+  //     .skip(pageSize * (page - 1));
+  // }
 
+  tickets = await Ticket.find({ Createdby: req.params.id,isSelectedticket:true}, { ...keyword })
+     .limit(pageSize)
+       .skip(pageSize * (page - 1))
   res.json({ tickets, page, pages: Math.ceil(count / pageSize) });
 });
 
@@ -92,29 +95,31 @@ const deleteTicket = asyncHandler(async (req, res) => {
 });
 
 const deleteAll = asyncHandler(async (req, res) => {
-// const  ticket = await Ticket.find({ Createdby: req.params.id }).where({ isDeleted: false });
+  // const  ticket = await Ticket.find({ Createdby: req.params.id }).where({ isDeleted: false });
 
-//   if (ticket) {
-//     ticket.isDeleted = true;
+  //   if (ticket) {
+  //     ticket.isDeleted = true;
 
-//     const updatedTicket = await ticket.save();
-//     res.json(updatedTicket);
-//   } else {
-//     res.status(404);
-//     throw new Error("Ticket not found");
-//   }
+  //     const updatedTicket = await ticket.save();
+  //     res.json(updatedTicket);
+  //   } else {
+  //     res.status(404);
+  //     throw new Error("Ticket not found");
+  //   }
 
-const tickets = await Ticket.find({ Createdby: req.params.id,isDeleted: false })
+  const tickets = await Ticket.find({
+    Createdby: req.params.id,
+    isSelectedticket: true,
+  });
 
-
-tickets.map((ticket) => (
-  ticket.isDeleted=true, 
-  ticket.istemplateDeleted=true,
-  
-  ticket.save()
-
-));
-res.json(tickets)
+  tickets.map(
+    (ticket) => (
+      (ticket.isSelectedticket = false),
+      // (ticket.istemplateDeleted = true),
+      ticket.save()
+    )
+  );
+  res.json(tickets);
 });
 
 // const Ticketcreate = asyncHandler(async (req, res) => {
@@ -141,37 +146,40 @@ res.json(tickets)
 
 const createTicket = asyncHandler(async (req, res) => {
   var ticket;
-  if (req.params.templateid === "null") {
+  ticket = new Ticket({
+    heading: ["Ticket Title", "Priority", "Comments"],
+    body: ["Sample name", "Sample name", "Sample name"],
+    heading2: ["Ticket URL", "Status", "ETA"],
+    body2: ["Sample name", "Sample name", "0 days"],
+    //user: req.body.id,
+    Createdby: req.body.id,
+    // istemplateDeleted: false,
+  });
 
-    ticket = new Ticket({
-      heading: ["Ticket Title", "Priority", "Comments"],
-      body: ["Sample name", "Sample name", "Sample name"],
-      heading2: ["Ticket URL", "Status", "ETA"],
-      body2: ["Sample name", "Sample name", "0 days"],
-      isDeleted: false,
-      //user: req.body.id,
-      Createdby: req.body.id,
-      istemplateDeleted:false,
-     
-    });
-  }
-   else{
-     
-    ticket = new Ticket({
-      heading: ["Ticket Title", "Priority", "Comments"],
-      body: ["Sample name", "Sample name", "Sample name"],
-      heading2: ["Ticket URL", "Status", "ETA"],
-      body2: ["Sample name", "Sample name", "0 days"],
-      isDeleted: false,
-      //user: req.body.id,
-      Createdby: req.body.id,
-      istemplateDeleted:false,
-      isSelectedtemplate:[{item:req.params.templateid}]
-
-
-
-    });
-   }
+  // // if (req.params.templateid === "null") {
+  // //   ticket = new Ticket({
+  // //     heading: ["Ticket Title", "Priority", "Comments"],
+  // //     body: ["Sample name", "Sample name", "Sample name"],
+  // //     heading2: ["Ticket URL", "Status", "ETA"],
+  // //     body2: ["Sample name", "Sample name", "0 days"],
+  // //     isDeleted: false,
+  // //     //user: req.body.id,
+  // //     Createdby: req.body.id,
+  // //     istemplateDeleted: false,
+  // //   });
+  // // } else {
+  // //   ticket = new Ticket({
+  // //     heading: ["Ticket Title", "Priority", "Comments"],
+  // //     body: ["Sample name", "Sample name", "Sample name"],
+  // //     heading2: ["Ticket URL", "Status", "ETA"],
+  // //     body2: ["Sample name", "Sample name", "0 days"],
+  // //     isDeleted: false,
+  // //     //user: req.body.id,
+  // //     Createdby: req.body.id,
+  // //     istemplateDeleted: false,
+  // //     isSelectedtemplate: [{ item: req.params.templateid }],
+  //   });
+  // }
 
   const createdTicket = await ticket.save();
   res.status(201).json(createdTicket);
@@ -430,17 +438,10 @@ const duplicateTicket = asyncHandler(async (req, res) => {
 //   Ticket.insert(newDoc);
 // })
 const isDeleted = asyncHandler(async (req, res) => {
-
   var ticket = await Ticket.findById(req.params.id);
-
   if (ticket) {
+    ticket.isSelectedticket = false;
 
-    if(req.params.templateid==='null'){
-      ticket.isDeleted = true;
-    }
-   else{
-     ticket.istemplateDeleted=true;
-   }
 
     const updatedTicket = await ticket.save();
     res.json(updatedTicket);
@@ -450,22 +451,42 @@ const isDeleted = asyncHandler(async (req, res) => {
   }
 });
 
-
-
-
-
-
 const isSelected = asyncHandler(async (req, res) => {
-  
   const tickets = await Ticket.find({ Createdby: req.params.id }).where({
-    isDeleted: false,
+    isSelectedticket: true,
   });
   console.log(tickets);
   const item = req.body;
-  tickets.map((ticket) => (ticket.isSelected.push(item),
-  ticket.isSelectedtemplate.push(item),
- ticket.save()));
+  tickets.map((ticket) => (ticket.isSelected.push(item), ticket.save()));
   res.json(tickets);
+});
+
+const cloneTicket = asyncHandler(async (req, res) => {
+  const tickets = await Ticket.find({ Createdby: req.params.id },{  isSelectedticket :true})
+  // console.log(tickets);
+  // const item = req.body;
+
+  if (tickets) {
+    tickets.map((ticket) => ((ticket.isSelectedticket = false), ticket.save()));
+  }
+
+  //
+  res.json(tickets);
+});
+
+const clonetrueTicket = asyncHandler(async (req, res) => {
+  const cloneTickets = await Ticket.find({
+    Createdby: req.params.id,
+    "isSelected.item": { $in: [req.params.templateid] },
+  });
+
+  if (cloneTickets) {
+    cloneTickets.map(
+      (ticket) => ((ticket.isSelectedticket = true), ticket.save())
+    );
+  }
+  //
+  res.json(cloneTickets);
 });
 
 export {
@@ -488,4 +509,6 @@ export {
   removeHeading2,
   isDeleted,
   isSelected,
+  cloneTicket,
+  clonetrueTicket,
 };

@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import NotificationAlert from "react-notification-alert";
+import axios from 'axios'
+import SERVER from "../../globals";
 
 // react plugin for creating notifications over the dashboard
 // react-bootstrap components
@@ -57,14 +59,29 @@ const Template = ({ template }) => {
   };
 
   const UpdateLocal = () => {
-    var existing = localStorage.getItem("id");
+    // var existing = localStorage.getItem("id");
 
-    // If no existing data, use the value by itself
-    // Otherwise, add the new value to it
-    var data = existing ? template._id : existing;
+    // // If no existing data, use the value by itself
+    // // Otherwise, add the new value to it
+    // var data = existing ? template._id : existing;
 
-    // Save back to localStorage
-    localStorage.setItem("id", data)
+    // // Save back to localStorage
+    // localStorage.setItem("id", data)
+
+    const user = JSON.parse(localStorage.getItem("response"));
+    const id = user.data.user._id;
+    axios.put(`${SERVER}/api/tickets/clone/${id}/${template._id}`)
+      .then(function (response) {
+        axios.put(`${SERVER}/api/tickets/clonetrue/${id}/${template._id}`)
+          .then(notify("tc", "Template Cloned"));
+
+        // console.log("pushing in this ticket",ticket.isSelected)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    
 
   };
 
@@ -77,7 +94,7 @@ const Template = ({ template }) => {
   };
   const UpdateLocalTemplate=()=>{
     UpdateLocal()
-    notify("tc", "Template Cloned")
+    
 
   }
 

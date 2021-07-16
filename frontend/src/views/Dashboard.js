@@ -161,6 +161,7 @@ function Dashboard({ match, location, history }) {
   const saveTemplate = () => {
     const user = JSON.parse(localStorage.getItem("response"));
     const id = user.data.user._id;
+    const templateid=localStorage.getItem("id");
     axios
       .post(`${SERVER}/api/template`, { id })
       .then(function (response) {

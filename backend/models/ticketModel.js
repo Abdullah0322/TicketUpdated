@@ -26,7 +26,16 @@ const ticketSchema = mongoose.Schema(
     isSelected: {
       type: Array,
     },
-    time: { type: Date, default: Date.now },
+
+    isSelectedtemplate:{
+      type:Array,
+    
+    },
+    
+    istemplateDeleted: {
+      type: Boolean,
+      default: false,
+    },
     
   
     // user:{

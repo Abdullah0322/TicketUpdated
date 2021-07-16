@@ -154,8 +154,9 @@ export const deleteTicket = (id) => async (dispatch) => {
     dispatch({
       type: TICKET_DELETE_REQUEST,
     });
+    const templateid=localStorage.getItem("id");
 
-    await axios.put(`${SERVER}/api/tickets/${id}/deleteticket`);
+    await axios.put(`${SERVER}/api/tickets/${id}/deleteticket/${templateid}`);
 
     dispatch({
       type: TICKET_DELETE_SUCCESS,

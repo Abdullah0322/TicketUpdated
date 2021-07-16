@@ -57,14 +57,13 @@ const getTickets = asyncHandler(async (req, res) => {
     tickets = await Ticket.find(
       {
         Createdby: req.params.id,
-        "isSelected.item": { $in: [req.params.templateid] },
+        "isSelectedtemplate.item": { $in: [req.params.templateid] }
       },
       { ...keyword }
     )
       .limit(pageSize)
       .skip(pageSize * (page - 1));
   }
-  console.log("jsjfoi")
 
   res.json({ tickets, page, pages: Math.ceil(count / pageSize) });
 });
@@ -110,6 +109,7 @@ const tickets = await Ticket.find({ Createdby: req.params.id,isDeleted: false })
 
 tickets.map((ticket) => (
   ticket.isDeleted=true, 
+  ticket.istemplateDeleted=true,
   
   ticket.save()
 
@@ -151,6 +151,8 @@ const createTicket = asyncHandler(async (req, res) => {
       isDeleted: false,
       //user: req.body.id,
       Createdby: req.body.id,
+      istemplateDeleted:false,
+     
     });
   }
    else{
@@ -163,7 +165,11 @@ const createTicket = asyncHandler(async (req, res) => {
       isDeleted: false,
       //user: req.body.id,
       Createdby: req.body.id,
-      isSelected:[{item:req.params.templateid}]
+      istemplateDeleted:false,
+      isSelectedtemplate:[{item:req.params.templateid}]
+
+
+
     });
    }
 
@@ -424,10 +430,17 @@ const duplicateTicket = asyncHandler(async (req, res) => {
 //   Ticket.insert(newDoc);
 // })
 const isDeleted = asyncHandler(async (req, res) => {
-  const ticket = await Ticket.findById(req.params.id);
+
+  var ticket = await Ticket.findById(req.params.id);
 
   if (ticket) {
-    ticket.isDeleted = true;
+
+    if(req.params.templateid==='null'){
+      ticket.isDeleted = true;
+    }
+   else{
+     ticket.istemplateDeleted=true;
+   }
 
     const updatedTicket = await ticket.save();
     res.json(updatedTicket);
@@ -437,13 +450,21 @@ const isDeleted = asyncHandler(async (req, res) => {
   }
 });
 
+
+
+
+
+
 const isSelected = asyncHandler(async (req, res) => {
+  
   const tickets = await Ticket.find({ Createdby: req.params.id }).where({
     isDeleted: false,
   });
   console.log(tickets);
   const item = req.body;
-  tickets.map((ticket) => (ticket.isSelected.push(item), ticket.save()));
+  tickets.map((ticket) => (ticket.isSelected.push(item),
+  ticket.isSelectedtemplate.push(item),
+ ticket.save()));
   res.json(tickets);
 });
 

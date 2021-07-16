@@ -25,8 +25,8 @@ isSelected
 } from '../controllers/ticketController.js'
 
 
-router.post('/',createTicket)
-router.get ('/:id',getTickets)
+router.post('/:templateid',createTicket)
+router.get ('/:id/ticket/:templateid',getTickets)
 router.get('/',getallTickets)
 router
   .route('/:id')
@@ -43,7 +43,7 @@ router
   router.post('/:id/heading',updateHeading)
   router.post('/:id/heading2',updateHeading2)
   router.post('/:id/body2',updateBody2)
-  router.delete('/',deleteAll)
+  router.put('/deleteall/:id',deleteAll)
   router.post('/duplicate',duplicateTicket)
   router.put('/:id/deleteticket',isDeleted)
   router.post('/addtemp/:id',isSelected)

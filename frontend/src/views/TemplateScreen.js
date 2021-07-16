@@ -8,6 +8,8 @@ import Meta from "../components/Meta/Meta.js";
 import axios from "axios";
 import { listTemplateDetails } from "../actions/templateActions";
 import SERVER from "../globals";
+import NotificationAlert from "react-notification-alert";
+
 
 const getTickets = async () => {
   const data = await axios.get(
@@ -22,7 +24,7 @@ const getTickets = async () => {
     </div>
   );
 };
-const TemplateScreen = ({ history,location, match }) => {
+const TemplateScreen = ({ history, location, match }) => {
   const dispatch = useDispatch();
 
   const templateDetails = useSelector((state) => state.templateDetails);
@@ -34,9 +36,7 @@ const TemplateScreen = ({ history,location, match }) => {
   useEffect(() => {
     if (!isLoggedIn()) {
       history.push(redirect);
-    
     }
-  
   }, []);
   useEffect(() => {
     if (!template._id || template._id !== match.params.id) {
@@ -45,6 +45,38 @@ const TemplateScreen = ({ history,location, match }) => {
   }, [dispatch, match]);
 
   console.log(template.tickets);
+  const notificationAlertRef = React.useRef(null);
+  const notify = (place, message) => {
+    var color = Math.floor(Math.random() * 5 + 1);
+    var type;
+    var message;
+    switch (color) {
+      case 1:
+        type = "success";
+        break;
+      case 2:
+        type = "danger";
+        break;
+      case 4:
+        type = "warning";
+        break;
+      case 5:
+        type = "info";
+        break;
+      default:
+        break;
+    }
+    var options = {};
+    options = {
+      place: place,
+
+      message: message,
+      type: type,
+      icon: "nc-icon nc-bell-55",
+      autoDismiss: 7,
+    };
+    notificationAlertRef.current.notificationAlert(options);
+  };
 
   return (
     <div>
@@ -55,6 +87,7 @@ const TemplateScreen = ({ history,location, match }) => {
         <Message variant="danger">{error}</Message>
       ) : (
         <Row>
+          <NotificationAlert ref={notificationAlertRef} />
           {template.tickets &&
             template.tickets.map((head, i) => (
               <Table className="table table-borderless" variant="dark">

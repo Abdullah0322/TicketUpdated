@@ -94,7 +94,7 @@ function User({ location, history }) {
       config,
     }).then((response) => {
       localStorage.setItem("response", JSON.stringify(response));
-      localStorage.setItem("id","")
+      localStorage.getItem('id')?localStorage.getItem("id"):localStorage.setItem('id',null)
       window.location.reload();
     });
   };

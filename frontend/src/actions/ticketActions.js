@@ -37,6 +37,11 @@ import {
   TICKET_DUPLICATE_REQUEST,
   TICKET_DUPLICATE_SUCCESS,
   TICKET_DUPLICATE_FAIL,
+
+ TICKET_DELETEALL_REQUEST,
+TICKET_DELETEALL_SUCCESS ,
+TICKET_DELETEALL_FAIL,
+
 } from "../constants/ticketConstants";
 
 export const listTickets = (keyword = "", pageNumber = "",id) =>
@@ -45,8 +50,10 @@ export const listTickets = (keyword = "", pageNumber = "",id) =>
       dispatch({ type: TICKET_LIST_REQUEST });
       const user=JSON.parse(localStorage.getItem("response"));
       const id=user.data.user._id
+      const templateid=localStorage.getItem("id");
+
       const { data } = await axios.get(
-        `${SERVER}/api/tickets/${id}?keyword=${keyword}&pageNumber=${pageNumber}`
+        `${SERVER}/api/tickets/${id}/ticket/${templateid}?keyword=${keyword}&pageNumber=${pageNumber}`
       );
 
       dispatch({
@@ -121,8 +128,10 @@ export const createTicket = (id) => async (dispatch) => {
     dispatch({
       type: TICKET_CREATE_REQUEST,
     });
-
-    const { data } = await axios.post(`${SERVER}/api/tickets`, { id });
+    const templateid=localStorage.getItem("id");
+  const user=JSON.parse(localStorage.getItem("response"));
+      const id=user.data.user._id
+    const { data } = await axios.post(`${SERVER}/api/tickets/${templateid}`, { id });
 
     dispatch({
       type: TICKET_CREATE_SUCCESS,
@@ -162,6 +171,32 @@ export const deleteTicket = (id) => async (dispatch) => {
     });
   }
 };
+
+export const deleteallTicket = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: TICKET_DELETEALL_REQUEST,
+    });
+    const user=JSON.parse(localStorage.getItem("response"));
+      const id=user.data.user._id
+
+    await axios.put(`${SERVER}/api/tickets/deleteall/${id}`);
+
+    dispatch({
+      type: TICKET_DELETEALL_SUCCESS,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({
+      type: TICKET_DELETEALL_FAIL,
+      payload: message,
+    });
+  }
+};
+
 
 export const createTicketHeading = (ticketId) => async (dispatch) => {
   try {

@@ -46,8 +46,12 @@ TICKET_DELETE_HEADING_FAIL,
 TICKET_DUPLICATE_REQUEST,
 TICKET_DUPLICATE_SUCCESS ,
 TICKET_DUPLICATE_FAIL,
-TICKET_DUPLICATE_RESET
+TICKET_DUPLICATE_RESET,
 
+
+TICKET_DELETEALL_REQUEST,
+TICKET_DELETEALL_SUCCESS ,
+TICKET_DELETEALL_FAIL,
 
 
 }from '../constants/ticketConstants'
@@ -192,6 +196,20 @@ export const ticketListReducer = (state = { tickets: [] }, action) => {
         return { ticket: {} }
       default:
         return state
+    }
+  }
+
+
+  export const ticketDeleteallReducer = (state = { ticket: {} }, action) => {
+    switch (action.type) {
+      case TICKET_DELETEALL_REQUEST:
+        return { loading: true }
+      case TICKET_DELETEALL_SUCCESS:
+        return { loading: false, success: true, ticket: action.payload }
+      case TICKET_DELETEALL_FAIL:
+        return { loading: false, error: action.payload }
+        default:
+          return state
     }
   }
   

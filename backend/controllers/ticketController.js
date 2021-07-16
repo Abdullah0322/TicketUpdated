@@ -2,7 +2,6 @@ import asyncHandler from "express-async-handler";
 import Ticket from "../models/ticketModel.js";
 import User from "../models/userModel.js";
 
-
 const getallTickets = asyncHandler(async (req, res) => {
   const pageSize = 1000;
   const page = Number(req.query.pageNumber) || 1;
@@ -29,9 +28,6 @@ const getallTickets = asyncHandler(async (req, res) => {
   res.json({ tickets, page, pages: Math.ceil(count / pageSize) });
 });
 
-
-
-
 const getTickets = asyncHandler(async (req, res) => {
   const pageSize = 1000;
   const page = Number(req.query.pageNumber) || 1;
@@ -47,13 +43,29 @@ const getTickets = asyncHandler(async (req, res) => {
 
   const count = await Ticket.countDocuments({ ...keyword });
 
-   
-  
-  const tickets = await Ticket.find({ Createdby: req.params.id }, { ...keyword })
-    .limit(pageSize)
-    .skip(pageSize * (page - 1))
-    .where({ isDeleted: false });
-    
+  var tickets;
+  console.log(req.params.id);
+
+  console.log('req.params.templateid: ', req.params.templateid);
+  if (req.params.templateid === "null") {
+    console.log('sssss')
+    tickets = await Ticket.find({ Createdby: req.params.id }, { ...keyword })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1))
+      .where({ isDeleted: false });
+  } else {
+    tickets = await Ticket.find(
+      {
+        Createdby: req.params.id,
+        "isSelected.item": { $in: [req.params.templateid] },
+      },
+      { ...keyword }
+    )
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
+  }
+  console.log("jsjfoi")
+
   res.json({ tickets, page, pages: Math.ceil(count / pageSize) });
 });
 
@@ -81,9 +93,28 @@ const deleteTicket = asyncHandler(async (req, res) => {
 });
 
 const deleteAll = asyncHandler(async (req, res) => {
-  const tickets = await Ticket;
-  await tickets.remove();
-  res.json({ message: "Ticket removed" });
+// const  ticket = await Ticket.find({ Createdby: req.params.id }).where({ isDeleted: false });
+
+//   if (ticket) {
+//     ticket.isDeleted = true;
+
+//     const updatedTicket = await ticket.save();
+//     res.json(updatedTicket);
+//   } else {
+//     res.status(404);
+//     throw new Error("Ticket not found");
+//   }
+
+const tickets = await Ticket.find({ Createdby: req.params.id,isDeleted: false })
+
+
+tickets.map((ticket) => (
+  ticket.isDeleted=true, 
+  
+  ticket.save()
+
+));
+res.json(tickets)
 });
 
 // const Ticketcreate = asyncHandler(async (req, res) => {
@@ -109,15 +140,32 @@ const deleteAll = asyncHandler(async (req, res) => {
 // });
 
 const createTicket = asyncHandler(async (req, res) => {
-  const ticket = new Ticket({
-    heading: ["Ticket Title", "Priority", "Comments"],
-    body: ["Sample name", "Sample name", "Sample name"],
-    heading2: ["Ticket URL", "Status", "ETA"],
-    body2: ["Sample name", "Sample name", "0 days"],
-    isDeleted: false,
-    //user: req.body.id,
-    Createdby:req.body.id
-  });
+  var ticket;
+  if (req.params.templateid === "null") {
+
+    ticket = new Ticket({
+      heading: ["Ticket Title", "Priority", "Comments"],
+      body: ["Sample name", "Sample name", "Sample name"],
+      heading2: ["Ticket URL", "Status", "ETA"],
+      body2: ["Sample name", "Sample name", "0 days"],
+      isDeleted: false,
+      //user: req.body.id,
+      Createdby: req.body.id,
+    });
+  }
+   else{
+     
+    ticket = new Ticket({
+      heading: ["Ticket Title", "Priority", "Comments"],
+      body: ["Sample name", "Sample name", "Sample name"],
+      heading2: ["Ticket URL", "Status", "ETA"],
+      body2: ["Sample name", "Sample name", "0 days"],
+      isDeleted: false,
+      //user: req.body.id,
+      Createdby: req.body.id,
+      isSelected:[{item:req.params.templateid}]
+    });
+   }
 
   const createdTicket = await ticket.save();
   res.status(201).json(createdTicket);
@@ -390,13 +438,14 @@ const isDeleted = asyncHandler(async (req, res) => {
 });
 
 const isSelected = asyncHandler(async (req, res) => {
-  const tickets = await Ticket.find({Createdby:req.params.id}).where({ isDeleted: false });
+  const tickets = await Ticket.find({ Createdby: req.params.id }).where({
+    isDeleted: false,
+  });
   console.log(tickets);
   const item = req.body;
   tickets.map((ticket) => (ticket.isSelected.push(item), ticket.save()));
   res.json(tickets);
 });
-
 
 export {
   getallTickets,

@@ -11,6 +11,7 @@ import {
   ticketHeadingDeleteReducer,
   ticketHeading2DeleteReducer,
   ticketDuplicateReducer,
+  ticketDeleteallReducer
 } from "./reducers/ticketReducers";
 import { composeWithDevTools } from "redux-devtools-extension";
 import {
@@ -39,7 +40,8 @@ const reducer = combineReducers({
   templateDetails: templateDetailsReducer,
   templateDelete: templateDeleteReducer,
   userList: userListReducer,
-  userDetails: userDetailsReducer
+  userDetails: userDetailsReducer,
+  ticketDeleteall:ticketDeleteallReducer
 });
 const initialState = {};
 const middleware = [thunk];

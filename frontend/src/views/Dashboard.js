@@ -23,6 +23,7 @@ import {
   deleteTicket,
   createTicket,
   listTicketsall,
+  deleteallTicket
 } from "../actions/ticketActions";
 
 import Message from "../components/Message/Message.js";
@@ -91,6 +92,14 @@ function Dashboard({ match, location, history }) {
     error: errorHeadingDelete,
   } = ticketHeadingDelete;
 
+  const ticketDeleteall = useSelector((state) => state.ticketDeleteall);
+  const {
+    success: successticketDeleteall,
+    loading: loadingticketDeleteall,
+    error: errorticketDeleteall,
+  } = ticketDeleteall;
+
+
   const ticketDuplicate = useSelector((state) => state.ticketDuplicate);
   const {
     success: successticketDuplicate,
@@ -107,7 +116,6 @@ function Dashboard({ match, location, history }) {
     error: errorHeading2Delete,
   } = ticketHeading2Delete;
 
-  const [localtickets, setTickets] = useState([]);
   let comment = JSON.parse(localStorage.getItem("response"));
   const redirect = location.search ? location.search.split("=")[1] : "/login";
   const isLoggedIn = () => {
@@ -119,7 +127,6 @@ function Dashboard({ match, location, history }) {
       history.push(redirect);
     }
     dispatch(listTickets(keyword, pageNumber));
-  
   }, [
     dispatch,
     keyword,
@@ -131,6 +138,7 @@ function Dashboard({ match, location, history }) {
     ticketDuplicate,
     // successHeadingCreate,
     successUpdate,
+    successticketDeleteall
   ]);
 
   // useEffect(()=>{
@@ -145,8 +153,7 @@ function Dashboard({ match, location, history }) {
   };
 
   const deleteAll = () => {
-    axios.delete("https://ticketupdater.herokuapp.com/api/tickets/");
-    window.location.reload();
+    dispatch(deleteallTicket())
   };
 
   console.log(tickets);
@@ -158,7 +165,9 @@ function Dashboard({ match, location, history }) {
       .post(`${SERVER}/api/template`, { id })
       .then(function (response) {
         axios
-          .post(`${SERVER}/api/tickets/addtemp/${id}`, { item: response.data._id })
+          .post(`${SERVER}/api/tickets/addtemp/${id}`, {
+            item: response.data._id,
+          })
           .then(notify("tc", "Template Saved"));
 
         // console.log("pushing in this ticket",ticket.isSelected)
@@ -166,6 +175,18 @@ function Dashboard({ match, location, history }) {
       .catch(function (error) {
         console.log(error);
       });
+  };
+
+  const UpdateLocal = () => {
+    var existing = localStorage.getItem("id");
+
+    // If no existing data, use the value by itself
+    // Otherwise, add the new value to it
+    var data = existing ? "null" : existing;
+
+    // Save back to localStorage
+    localStorage.setItem("id", data);
+    dispatch(listTickets(keyword, pageNumber));
   };
 
   const notificationAlertRef = React.useRef(null);
@@ -265,6 +286,43 @@ function Dashboard({ match, location, history }) {
                             </Button>
                           ) : (
                             <h6>You must be admin to create </h6>
+                          )}
+                        </Card.Title>
+                      </div>
+                    </Col>
+                  </Row>
+                </Card.Body>
+                <Card.Footer>
+                  <hr></hr>
+                  <div className="stats">
+                    <i className="far fa-calendar-alt mr-1"></i>
+                    Last day
+                  </div>
+                </Card.Footer>
+              </Card>
+            </Col>
+            <Col lg="3" sm="6">
+              <Card className="card-stats">
+                <Card.Body>
+                  <Row>
+                    <Col xs="12">
+                      <div className="numbers">
+                        <p className="card-category">
+                          Current Template:{" "}
+                          {localStorage.getItem("id") == "null" ? (
+                            <h6>Default</h6>
+                          ) : (
+                            localStorage.getItem("id")
+                          )}
+                        </p>
+                        <Card.Title as="h4">
+                          {" "}
+                          {localStorage.getItem("id") == "null" ? (
+                            ""
+                          ) : (
+                            <Button className="btn-sm" onClick={UpdateLocal}>
+                              Return to Default
+                            </Button>
                           )}
                         </Card.Title>
                       </div>
@@ -384,13 +442,12 @@ function Dashboard({ match, location, history }) {
           </Row>
 
           <Row>
-            {
-              tickets &&
-                tickets.map((ticket) => (
-                  <Col key={ticket._id} md={12}>
-                    <Ticket ticket={ticket} />
-                  </Col>
-                ))}
+            {tickets &&
+              tickets.map((ticket) => (
+                <Col key={ticket._id} md={12}>
+                  <Ticket ticket={ticket} />
+                </Col>
+              ))}
           </Row>
         </Container>
       )}

@@ -9,7 +9,7 @@ import { sendEmail } from "../controllers/emailController.js";
 router.get("/sendmail/:id", async(req, res) => {
 
     const ticketData = await Ticket.find({ Createdby: req.params.id })
-    .where({ isDeleted: false });
+    .where({ isSelectedticket: true });
     
     res.render('email', {
         ticketData
@@ -19,7 +19,7 @@ router.get("/sendmail/:id", async(req, res) => {
 router.post("/sendmail/:id", async(req, res) => {
 
     const ticketData = await Ticket.find({ Createdby: req.params.id })
-    .where({ isDeleted: false });
+    .where({ isSelectedticket: true });
     
     
     sendEmail(req.body.email, req.body.name,req.body.cc, ticketData)

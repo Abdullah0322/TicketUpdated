@@ -1,6 +1,8 @@
 import asyncHandler from "express-async-handler";
 import Ticket from "../models/ticketModel.js";
 import User from "../models/userModel.js";
+import mongoose from "mongoose";
+
 
 const getallTickets = asyncHandler(async (req, res) => {
   const pageSize = 1000;
@@ -461,6 +463,8 @@ const isSelected = asyncHandler(async (req, res) => {
   res.json(tickets);
 });
 
+
+
 const cloneTicket = asyncHandler(async (req, res) => {
   const tickets = await Ticket.find({ Createdby: req.params.id },{  isSelectedticket :true})
   // console.log(tickets);
@@ -480,13 +484,57 @@ const clonetrueTicket = asyncHandler(async (req, res) => {
     "isSelected.item": { $in: [req.params.templateid] },
   });
 
+  
+
+
+
   if (cloneTickets) {
     cloneTickets.map(
       (ticket) => ((ticket.isSelectedticket = true), ticket.save())
     );
   }
+
+
+
+
+
+
+
+
   //
   res.json(cloneTickets);
+});
+
+
+const NewTickets = asyncHandler(async (req, res) => {
+  // const Tickets = await Ticket.find({
+  //   Createdby: req.params.id,
+  //   "isSelected.item": { $in: [req.params.templateid] },
+  // });
+
+const newTickets= Ticket.insertMany(req.body)  
+res.status(201).json(newTickets);
+
+// var d1;
+
+//     Tickets.map(
+//       (ticket) => (
+//        d1=ticket,
+//        delete d1._id,
+//        d1._id= mongoose.Types.ObjectId(),
+//        d1.save()
+//       )
+//     );
+
+
+
+
+
+
+
+
+
+  //
 });
 
 export {
@@ -511,4 +559,5 @@ export {
   isSelected,
   cloneTicket,
   clonetrueTicket,
+  NewTickets
 };

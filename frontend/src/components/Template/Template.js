@@ -116,16 +116,6 @@ const Template = ({ template }) => {
 
             <Card.Text as="div">Id : {template._id}</Card.Text>
             <br></br>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={UpdateLocalTemplate}
-            >
-              Clone
-            </Button>
-            <br></br>
-            <br></br>
             {localStorage.getItem("response") ? (
               <Button
                 variant="contained"

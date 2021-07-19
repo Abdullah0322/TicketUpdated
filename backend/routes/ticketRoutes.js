@@ -21,14 +21,14 @@ removeHeading2,
 isDeleted,
 isSelected ,
 cloneTicket,
-clonetrueTicket
-
+clonetrueTicket,
+NewTickets
 
 } from '../controllers/ticketController.js'
 
 
-router.post('/:templateid',createTicket)
-router.get ('/:id/ticket/:templateid',getTickets)
+router.post('/',createTicket)
+router.get ('/:id',getTickets)
 router.get('/',getallTickets)
 router
   .route('/:id')
@@ -49,7 +49,8 @@ router
   router.post('/duplicate',duplicateTicket)
   router.put('/:id/deleteticket/:templateid',isDeleted)
   router.post('/addtemp/:id',isSelected)
-  router.put('/clone/:id/:templateid',cloneTicket)
+  router.put('/clone/:id',cloneTicket)
   router.put('/clonetrue/:id/:templateid',clonetrueTicket)
+  router.post('/newtickets',NewTickets)
 
   export default router

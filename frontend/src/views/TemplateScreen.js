@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Table } from "react-bootstrap";
+import { Row, Col, Table, Button } from "react-bootstrap";
 import Message from "../components/Message/Message.js";
 import Loader from "../components/Loader/Loader.js";
 import Ticket from "../components/Ticket/Ticket.js";
@@ -10,20 +10,6 @@ import { listTemplateDetails } from "../actions/templateActions";
 import SERVER from "../globals";
 import NotificationAlert from "react-notification-alert";
 
-
-const getTickets = async () => {
-  const data = await axios.get(
-    `http://localhost:5000/api/template/60e82171bf070c20d191ad3a`
-  );
-  console.log("data", data);
-  console.log(data.data.tickets[0].heading);
-
-  return (
-    <div>
-      <h6>{data.data.tickets[0].heading}</h6>
-    </div>
-  );
-};
 const TemplateScreen = ({ history, location, match }) => {
   const dispatch = useDispatch();
 
@@ -44,7 +30,6 @@ const TemplateScreen = ({ history, location, match }) => {
     }
   }, [dispatch, match]);
 
-  console.log(template.tickets);
   const notificationAlertRef = React.useRef(null);
   const notify = (place, message) => {
     var color = Math.floor(Math.random() * 5 + 1);
@@ -77,6 +62,43 @@ const TemplateScreen = ({ history, location, match }) => {
     };
     notificationAlertRef.current.notificationAlert(options);
   };
+  const getTickets = async () => {
+
+
+    const a = template.tickets &&
+      template.tickets.map((t) => {
+        delete t._id;
+        t.isSelected=[];
+        t.isSelectedticket=true;
+
+        // const  { _id ,...ticket} = t
+        // const {isSelected,...b}=t
+      //   return {
+      //     b: []
+      //     // ...ticket
+      //   }
+      //   // 
+       });
+
+    console.log("template.tickets._id: ", template.tickets);
+   
+    const user = JSON.parse(localStorage.getItem("response"));
+    const id = user.data.user._id;
+    axios.put(`${SERVER}/api/tickets/clone/${id}`)
+      .then(function (response) {
+        axios.post(`${SERVER}/api/tickets/newtickets`, template.tickets).then(notify("tc", "Template Cloned"));
+         
+        // console.log("pushing in this ticket",ticket.isSelected)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    
+
+
+   
+  };
 
   return (
     <div>
@@ -87,7 +109,8 @@ const TemplateScreen = ({ history, location, match }) => {
         <Message variant="danger">{error}</Message>
       ) : (
         <Row>
-          <NotificationAlert ref={notificationAlertRef} />
+           <NotificationAlert ref={notificationAlertRef} />
+          <Button onClick={getTickets}> Clone</Button>
           {template.tickets &&
             template.tickets.map((head, i) => (
               <Table className="table table-borderless" variant="dark">

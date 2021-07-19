@@ -53,7 +53,7 @@ export const listTickets = (keyword = "", pageNumber = "",id) =>
       const templateid=localStorage.getItem("id");
 
       const { data } = await axios.get(
-        `${SERVER}/api/tickets/${id}/ticket/${templateid}?keyword=${keyword}&pageNumber=${pageNumber}`
+        `${SERVER}/api/tickets/${id}?keyword=${keyword}&pageNumber=${pageNumber}`
       );
 
       dispatch({
@@ -131,7 +131,7 @@ export const createTicket = (id) => async (dispatch) => {
     const templateid=localStorage.getItem("id");
   const user=JSON.parse(localStorage.getItem("response"));
       const id=user.data.user._id
-    const { data } = await axios.post(`${SERVER}/api/tickets/${templateid}`, { id });
+    const { data } = await axios.post(`${SERVER}/api/tickets`, { id });
 
     dispatch({
       type: TICKET_CREATE_SUCCESS,
@@ -361,6 +361,7 @@ export const duplicateTicket = (ticket) => async (dispatch) => {
     });
 
     delete ticket._id;
+    ticket.isSelected=[]
     const { data } = await axios.post(
       `${SERVER}/api/tickets/duplicate`,
       ticket

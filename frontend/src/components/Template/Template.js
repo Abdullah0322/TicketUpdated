@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import NotificationAlert from "react-notification-alert";
 import axios from 'axios'
 import SERVER from "../../globals";
-
+import './template.css'
 // react plugin for creating notifications over the dashboard
 // react-bootstrap components
 import {
@@ -25,38 +24,7 @@ import Button from "@material-ui/core/Button";
 import { deleteTemplate } from "actions/templateActions";
 
 const Template = ({ template }) => {
-  const notificationAlertRef = React.useRef(null);
-  const notify = (place, message) => {
-    var color = Math.floor(Math.random() * 5 + 1);
-    var type;
-    var message;
-    switch (color) {
-      case 1:
-        type = "success";
-        break;
-      case 2:
-        type = "danger";
-        break;
-      case 4:
-        type = "warning";
-        break;
-      case 5:
-        type = "info";
-        break;
-      default:
-        break;
-    }
-    var options = {};
-    options = {
-      place: place,
-
-      message: message,
-      type: type,
-      icon: "nc-icon nc-bell-55",
-      autoDismiss: 7,
-    };
-    notificationAlertRef.current.notificationAlert(options);
-  };
+ 
 
   const UpdateLocal = () => {
     // var existing = localStorage.getItem("id");
@@ -102,8 +70,8 @@ const Template = ({ template }) => {
   return (
     <>
       <Container fluid>
-        <NotificationAlert ref={notificationAlertRef} />
-        <Card className="my-3 p-3 rounded">
+       
+        <Card className="customcard">
           <Link to={`admin/template/${template._id}`}></Link>
 
           <Card.Body>

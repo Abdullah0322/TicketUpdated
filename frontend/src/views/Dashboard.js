@@ -3,10 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import SERVER from "../globals";
+import Button from "@material-ui/core/Button";
+import { LinkContainer } from "react-router-bootstrap";
+
 // react-bootstrap components
 import {
   Badge,
-  Button,
   Card,
   Navbar,
   Nav,
@@ -23,7 +25,7 @@ import {
   deleteTicket,
   createTicket,
   listTicketsall,
-  deleteallTicket
+  deleteallTicket,
 } from "../actions/ticketActions";
 
 import Message from "../components/Message/Message.js";
@@ -99,7 +101,6 @@ function Dashboard({ match, location, history }) {
     error: errorticketDeleteall,
   } = ticketDeleteall;
 
-
   const ticketDuplicate = useSelector((state) => state.ticketDuplicate);
   const {
     success: successticketDuplicate,
@@ -118,6 +119,7 @@ function Dashboard({ match, location, history }) {
 
   let comment = JSON.parse(localStorage.getItem("response"));
   const redirect = location.search ? location.search.split("=")[1] : "/login";
+
   const isLoggedIn = () => {
     return localStorage.getItem("response") ? true : false;
   };
@@ -138,7 +140,7 @@ function Dashboard({ match, location, history }) {
     ticketDuplicate,
     // successHeadingCreate,
     successUpdate,
-    successticketDeleteall
+    successticketDeleteall,
   ]);
 
   // useEffect(()=>{
@@ -153,7 +155,7 @@ function Dashboard({ match, location, history }) {
   };
 
   const deleteAll = () => {
-    dispatch(deleteallTicket())
+    dispatch(deleteallTicket());
   };
 
   console.log(tickets);
@@ -161,14 +163,27 @@ function Dashboard({ match, location, history }) {
   const saveTemplate = () => {
     const user = JSON.parse(localStorage.getItem("response"));
     const id = user.data.user._id;
-    const templateid=localStorage.getItem("id");
+    const templateid = localStorage.getItem("id");
     axios
       .post(`${SERVER}/api/template`, { id })
       .then(function (response) {
+        tickets &&
+        tickets.map((t) => {
+          delete t._id;
+          t.isSelected.push({item:response.data._id})
+          t.isSelectedticket = false;
+  
+          // const  { _id ,...ticket} = t
+          // const {isSelected,...b}=t
+          //   return {
+          //     b: []
+          //     // ...ticket
+          //   }
+          //   //
+        });
+  
         axios
-          .post(`${SERVER}/api/tickets/addtemp/${id}`, {
-            item: response.data._id,
-          })
+          .post(`${SERVER}/api/tickets/addtemp/${id}`,tickets)
           .then(notify("tc", "Template Saved"));
 
         // console.log("pushing in this ticket",ticket.isSelected)
@@ -222,7 +237,10 @@ function Dashboard({ match, location, history }) {
     };
     notificationAlertRef.current.notificationAlert(options);
   };
-  const text = "hello world";
+  function func(){	
+    
+    window.location.href = "https://ticketupdater.herokuapp.com/api/sendmail/" + comment.data.user._id;
+  }
   return (
     <>
       <Meta></Meta>
@@ -257,10 +275,7 @@ function Dashboard({ match, location, history }) {
                 </Card.Body>
                 <Card.Footer>
                   <hr></hr>
-                  <div className="stats">
-                    <i className="fas fa-redo mr-1"></i>
-                    Update Now
-                  </div>
+                  <div className="stats"></div>
                 </Card.Footer>
               </Card>
             </Col>
@@ -280,10 +295,11 @@ function Dashboard({ match, location, history }) {
                           {" "}
                           {localStorage.getItem("response") ? (
                             <Button
-                              className="btn-sm"
+                              variant="contained"
+                              color="primary"
                               onClick={createProductHandler}
                             >
-                              Create Row
+                              Create
                             </Button>
                           ) : (
                             <h6>You must be admin to create </h6>
@@ -295,66 +311,35 @@ function Dashboard({ match, location, history }) {
                 </Card.Body>
                 <Card.Footer>
                   <hr></hr>
-                  <div className="stats">
-                    <i className="far fa-calendar-alt mr-1"></i>
-                    Last day
-                  </div>
+                  <div className="stats"></div>
                 </Card.Footer>
               </Card>
             </Col>
-           
             <Col lg="3" sm="6">
               <Card className="card-stats">
                 <Card.Body>
                   <Row>
                     <Col xs="5">
                       <div className="icon-big text-center icon-warning">
-                        <i className="nc-icon nc-vector text-danger"></i>
+                        <i className="nc-icon nc-light-3 text-success"></i>
                       </div>
                     </Col>
                     <Col xs="7">
                       <div className="numbers">
-                        <p className="card-category">User Details</p>
+                        <p className="card-category">Delete</p>
                         <Card.Title as="h4">
                           {" "}
-                          {comment ? comment.data.user.name : "Please Login"}
-                        </Card.Title>
-                      </div>
-                    </Col>
-                  </Row>
-                </Card.Body>
-                <Card.Footer>
-                  <hr></hr>
-                  <div className="stats">
-                    <i className="far fa-clock-o mr-1"></i>
-                    {comment ? comment.data.user.email : ""}
-                  </div>
-                </Card.Footer>
-              </Card>
-            </Col>
-            <Col lg="3" sm="6">
-              <Card className="card-stats">
-                <Card.Body>
-                  <Row>
-                    <Col xs="5">
-                      <div className="icon-big text-center icon-warning">
-                        <i className="nc-icon nc-favourite-28 text-primary"></i>
-                      </div>
-                    </Col>
-                    <Col xs="7">
-                      <div className="numbers">
-                        <p className="card-category">Delete All</p>
-                        <Card.Title as="h4">
                           {localStorage.getItem("response") ? (
                             <Button
-                              variant="danger"
-                              className="btn-sm"
+                              variant="contained"
+                              color="secondary"
+                              size="sm"
                               onClick={deleteAll}
                             >
-                              Delete All Rows
+                              Delete All
                             </Button>
                           ) : (
-                            <h6>You must be admin to Delete</h6>
+                            <h6>You must be admin to create </h6>
                           )}
                         </Card.Title>
                       </div>
@@ -363,13 +348,11 @@ function Dashboard({ match, location, history }) {
                 </Card.Body>
                 <Card.Footer>
                   <hr></hr>
-                  <div className="stats">
-                    <i className="fas fa-redo mr-1"></i>
-                    Update now
-                  </div>
+                  <div className="stats"></div>
                 </Card.Footer>
               </Card>
             </Col>
+
             <Col lg="3" sm="6">
               <Card className="card-stats">
                 <Card.Body>
@@ -381,10 +364,10 @@ function Dashboard({ match, location, history }) {
                     </Col>
                     <Col xs="7">
                       <div className="numbers">
-                        <p className="card-category">Save Current Template</p>
+                        <p className="card-category">Save Template</p>
                         <Card.Title as="h4">
                           {localStorage.getItem("response") ? (
-                            <Button variant="contained" onClick={saveTemplate}>
+                            <Button color="primary" onClick={saveTemplate}>
                               Save Template
                             </Button>
                           ) : (
@@ -397,10 +380,30 @@ function Dashboard({ match, location, history }) {
                 </Card.Body>
                 <Card.Footer>
                   <hr></hr>
-                  <div className="stats">
-                    <i className="fas fa-redo mr-1"></i>
-                    Update now
-                  </div>
+                  <div className="stats"></div>
+                </Card.Footer>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+          <Col lg="12" sm="12">
+              <Card className="card-stats">
+                <Card.Body>
+                  <Row>
+                   
+                    <Col md="4">
+                      
+                        <h6 className="card-category"><b>Email Current Template</b></h6>
+                        <Card.Title as="h4">
+                        <Button color="primary" onClick={func}>Send Email</Button>
+                        </Card.Title>
+                  
+                    </Col>
+                  </Row>
+                </Card.Body>
+                <Card.Footer>
+                  <hr></hr>
+                  <div className="stats"></div>
                 </Card.Footer>
               </Card>
             </Col>

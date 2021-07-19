@@ -454,13 +454,16 @@ const isDeleted = asyncHandler(async (req, res) => {
 });
 
 const isSelected = asyncHandler(async (req, res) => {
-  const tickets = await Ticket.find({ Createdby: req.params.id }).where({
-    isSelectedticket: true,
-  });
-  console.log(tickets);
-  const item = req.body;
-  tickets.map((ticket) => (ticket.isSelected.push(item), ticket.save()));
-  res.json(tickets);
+  // const tickets = await Ticket.find({ Createdby: req.params.id }).where({
+  //   isSelectedticket: true,
+  // });
+  // console.log(tickets);
+  // const item = req.body;
+  // tickets.map((ticket) => (ticket.isSelected.push(item), ticket.save()));
+
+  const newTickets= Ticket.insertMany(req.body)  
+
+  res.json(newTickets);
 });
 
 

@@ -10,7 +10,7 @@ import { listTemplateDetails } from "../actions/templateActions";
 import SERVER from "../globals";
 import NotificationAlert from "react-notification-alert";
 import Button from "@material-ui/core/Button";
-import './table.css'
+import "./table.css";
 const TemplateScreen = ({ history, location, match }) => {
   const dispatch = useDispatch();
 
@@ -113,11 +113,10 @@ const TemplateScreen = ({ history, location, match }) => {
             {" "}
             Clone Template
           </Button>
-         
-         
+
           {template.tickets &&
             template.tickets.map((head, i) => (
-              <Table className="table table-borderless"  variant="dark">
+              <Table className="table table-borderless" variant="dark">
                 <thead>
                   <tr>
                     {head.heading.map((hea) => (

@@ -34,19 +34,10 @@ function Icons({history,location}) {
     cc
   }
   console.log(datatosend)
-
-  if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email && cc)){
-    const user = JSON.parse(localStorage.getItem("response"));
+  console.log(cc)
+  const user = JSON.parse(localStorage.getItem("response"));
     const id = user.data.user._id;
     axios.post(`${SERVER}/api/sendmail/${id}` ,datatosend).then(notify("tc",`Email sent to ${email} CC:${cc}`))
-  
-  }
-  
-  
-else{
-  alert("You have entered an invalid email address!")
-
-}
  
 
   }
@@ -124,7 +115,7 @@ else{
                 <Form.Group controlId="name">
                   <Form.Label>Email</Form.Label>
                   <Form.Control
-                    type="email"
+                    type="name"
                     placeholder="Enter Email"
                     value={email}
                     name="email"

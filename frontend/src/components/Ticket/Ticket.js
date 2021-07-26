@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   // Button,
@@ -58,6 +58,7 @@ const Ticket = ({ ticket }) => {
   const [headingName2, setheadingName2] = useState(ticket.heading2);
 
   const [data, setData] = useState(ticket.heading);
+  const [copySuccess, setCopySuccess] = useState("");
 
   if (ticket.body2[0] == "check.com") {
     console.log(<a href="clickhere to reveal link"></a>);
@@ -204,8 +205,9 @@ const Ticket = ({ ticket }) => {
     dispatch(duplicateTicket(ticket));
   };
 
+
   return (
-    <div>
+    <div id="stats">
       <Row>
         <Table className="table table-borderless" variant="dark">
           <thead>

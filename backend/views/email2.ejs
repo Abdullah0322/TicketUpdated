@@ -105,16 +105,12 @@
         window.getSelection().addRange(range);
         document.execCommand("copy");
       }
-
-
-  
-
-
+      
     </script>
   </head>
   <body>
     <h1>Daily Ticket Update</h1>
-    
+
     <input
       type="button"
       value="Copy to Clipboard"
@@ -125,15 +121,12 @@
       >Send Email</a
     >
 
-    
-
     <!-- <input
       type="button"
       value="Email"
       onClick="sendEmailViaEmailApp"
     /> -->
 
-   
     <div id="stats">
       <% ticketData.forEach(function(ticket){ %>
       <br />
@@ -150,7 +143,7 @@
         <tbody>
           <tr>
             <% ticket.body.forEach(function(body){%>
-            <td><%= body %></td>
+            <td class="mailcontent"><%= body %></td>
             <% })%>
           </tr>
           <tr>

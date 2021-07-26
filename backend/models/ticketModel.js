@@ -7,6 +7,7 @@ const bodySchema = mongoose.Schema({
   name: { type: String },
 });
 
+
 const ticketSchema = mongoose.Schema(
   {
     heading: {
@@ -32,6 +33,7 @@ const ticketSchema = mongoose.Schema(
       default:true
     },
     
+
     // istemplateDeleted: {
     //   type: Boolean,
     //   default: false,
@@ -44,13 +46,16 @@ const ticketSchema = mongoose.Schema(
     //   },
 
       Createdby:{type:String}
+
   
   },
 
-  
+ 
   {
     timestamps: true,
   }
+
+  
 );
 
 const Ticket = mongoose.model("Ticket", ticketSchema);

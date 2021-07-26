@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -241,6 +241,20 @@ function Dashboard({ match, location, history }) {
     
     window.location.href = "https://ticketupdater.herokuapp.com/api/sendmail/" + comment.data.user._id;
   }
+
+
+
+  // const Mailto = ({ email,  body, children }) => {
+  //   var subject='hm';
+  //   var body= "ummah"
+  //   return (
+  //     <a href={`mailto:${email}?subject=${encodeURIComponent(subject) || ''}&body=${encodeURIComponent(body) || ''}`}>{children}</a>
+  //   );
+  // };
+
+
+
+
   return (
     <>
       <Meta></Meta>
@@ -254,8 +268,13 @@ function Dashboard({ match, location, history }) {
             <NotificationAlert ref={notificationAlertRef} />
           </div>
           <Row>
-            {/* <Button href="https://ticketupdater.herokuapp.com/api/sendmail">Click Button</Button> */}
+          {/* <Mailto email="foo@bar.baz" subject body>
+    Mail me!
+  </Mailto> */}
 
+ 
+
+            {/* <Button href="https://ticketupdater.herokuapp.com/api/sendmail">Click Button</Button> */}
             <Col lg="3" sm="6">
               <Card className="card-stats">
                 <Card.Body>
@@ -407,8 +426,10 @@ function Dashboard({ match, location, history }) {
                 </Card.Footer>
               </Card>
             </Col>
-          </Row>
+            
 
+          </Row>
+       
           <Row>
             {tickets &&
               tickets.map((ticket) => (

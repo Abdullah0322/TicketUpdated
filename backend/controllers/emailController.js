@@ -91,6 +91,8 @@ const sendEmail = async(to, name, cc, ticketData) => {
   });
 };
 
+
+
 export{
     sendEmail
 }

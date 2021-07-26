@@ -4,11 +4,9 @@ import {
   TICKET_LIST_REQUEST,
   TICKET_LIST_SUCCESS,
   TICKET_LIST_FAIL,
-
   TICKET_LISTALL_REQUEST,
   TICKET_LISTALL_SUCCESS,
   TICKET_LISTALL_FAIL,
-
   TICKET_CREATE_REQUEST,
   TICKET_CREATE_SUCCESS,
   TICKET_CREATE_FAIL,
@@ -37,20 +35,19 @@ import {
   TICKET_DUPLICATE_REQUEST,
   TICKET_DUPLICATE_SUCCESS,
   TICKET_DUPLICATE_FAIL,
-
- TICKET_DELETEALL_REQUEST,
-TICKET_DELETEALL_SUCCESS ,
-TICKET_DELETEALL_FAIL,
-
+  TICKET_DELETEALL_REQUEST,
+  TICKET_DELETEALL_SUCCESS,
+  TICKET_DELETEALL_FAIL,
 } from "../constants/ticketConstants";
 
-export const listTickets = (keyword = "", pageNumber = "",id) =>
+export const listTickets =
+  (keyword = "", pageNumber = "", id) =>
   async (dispatch) => {
     try {
       dispatch({ type: TICKET_LIST_REQUEST });
-      const user=JSON.parse(localStorage.getItem("response"));
-      const id=user.data.user._id
-      const templateid=localStorage.getItem("id");
+      const user = JSON.parse(localStorage.getItem("response"));
+      const id = user.data.user._id;
+      const templateid = localStorage.getItem("id");
 
       const { data } = await axios.get(
         `${SERVER}/api/tickets/${id}?keyword=${keyword}&pageNumber=${pageNumber}`
@@ -72,16 +69,17 @@ export const listTickets = (keyword = "", pageNumber = "",id) =>
     }
   };
 
-  export const listTicketsall = (keyword = "", pageNumber = "") =>
+export const listTicketsall =
+  (keyword = "", pageNumber = "") =>
   async (dispatch) => {
     try {
-      dispatch({ type:  TICKET_LIST_REQUEST, });
+      dispatch({ type: TICKET_LIST_REQUEST });
       const { data } = await axios.get(
         `${SERVER}/api/tickets?keyword=${keyword}&pageNumber=${pageNumber}`
       );
 
       dispatch({
-        type:  TICKET_LIST_SUCCESS,
+        type: TICKET_LIST_SUCCESS,
         payload: data,
       });
       console.log(data);
@@ -95,7 +93,6 @@ export const listTickets = (keyword = "", pageNumber = "",id) =>
       });
     }
   };
-
 
 // export const createTicket =
 //   ({ ticketdetails }) =>
@@ -128,9 +125,9 @@ export const createTicket = (id) => async (dispatch) => {
     dispatch({
       type: TICKET_CREATE_REQUEST,
     });
-    const templateid=localStorage.getItem("id");
-  const user=JSON.parse(localStorage.getItem("response"));
-      const id=user.data.user._id
+    const templateid = localStorage.getItem("id");
+    const user = JSON.parse(localStorage.getItem("response"));
+    const id = user.data.user._id;
     const { data } = await axios.post(`${SERVER}/api/tickets`, { id });
 
     dispatch({
@@ -154,7 +151,7 @@ export const deleteTicket = (id) => async (dispatch) => {
     dispatch({
       type: TICKET_DELETE_REQUEST,
     });
-    const templateid=localStorage.getItem("id");
+    const templateid = localStorage.getItem("id");
 
     await axios.put(`${SERVER}/api/tickets/${id}/deleteticket/${templateid}`);
 
@@ -178,8 +175,8 @@ export const deleteallTicket = () => async (dispatch) => {
     dispatch({
       type: TICKET_DELETEALL_REQUEST,
     });
-    const user=JSON.parse(localStorage.getItem("response"));
-      const id=user.data.user._id
+    const user = JSON.parse(localStorage.getItem("response"));
+    const id = user.data.user._id;
 
     await axios.put(`${SERVER}/api/tickets/deleteall/${id}`);
 
@@ -197,7 +194,6 @@ export const deleteallTicket = () => async (dispatch) => {
     });
   }
 };
-
 
 export const createTicketHeading = (ticketId) => async (dispatch) => {
   try {
@@ -361,7 +357,7 @@ export const duplicateTicket = (ticket) => async (dispatch) => {
     });
 
     delete ticket._id;
-    ticket.isSelected=[]
+    ticket.isSelected = [];
     const { data } = await axios.post(
       `${SERVER}/api/tickets/duplicate`,
       ticket

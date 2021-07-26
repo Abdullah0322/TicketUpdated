@@ -27,50 +27,50 @@ const UserTicketScreen = ({ match }) => {
 
   return (
     <div>
-    <Meta></Meta>
-    {loading ? (
-      <Loader />
-    ) : error ? (
-      <Message variant="danger">{error}</Message>
-    ) : (
-      <Row>
-        {user.tickets &&
-          user.tickets.map((head, i) => (
-            <Table className="table table-borderless" variant="dark">
-              <thead>
-                <tr>
-                  {head.heading.map((hea) => (
-                    <th>
-                      <h6 className="head">{hea}</h6>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  {head.body.map((hea) => (
-                    <td>
-                      <h6>{hea}</h6>
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  {head.heading2.map((hea) => (
-                    <td>
-                      <h6 className="head">{hea}</h6>
-                    </td>
-                  ))}
-                </tr>
+      <Meta></Meta>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant="danger">{error}</Message>
+      ) : (
+        <Row>
+          {user.tickets &&
+            user.tickets.map((head, i) => (
+              <Table className="table table-borderless" variant="dark">
+                <thead>
+                  <tr>
+                    {head.heading.map((hea) => (
+                      <th>
+                        <h6 className="head">{hea}</h6>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    {head.body.map((hea) => (
+                      <td>
+                        <h6>{hea}</h6>
+                      </td>
+                    ))}
+                  </tr>
+                  <tr>
+                    {head.heading2.map((hea) => (
+                      <td>
+                        <h6 className="head">{hea}</h6>
+                      </td>
+                    ))}
+                  </tr>
 
-                <tr>
-                  {head.body2.map((hea) => (
-                    <td>
-                      <h6>{hea}</h6>
-                    </td>
-                  ))}
-                </tr>
-              </tbody>
-              {/* <tbody>
+                  <tr>
+                    {head.body2.map((hea) => (
+                      <td>
+                        <h6>{hea}</h6>
+                      </td>
+                    ))}
+                  </tr>
+                </tbody>
+                {/* <tbody>
           <tr>
             {ticket.body.map((body, i) => (
               <td key={i}>
@@ -97,12 +97,11 @@ const UserTicketScreen = ({ match }) => {
             ))}
           </tr>
         </tbody> */}
-            </Table>
-          ))}
-      </Row>
-    )}
-  </div>
-
+              </Table>
+            ))}
+        </Row>
+      )}
+    </div>
   );
 };
 

@@ -126,7 +126,7 @@ function Dashboard({ match, location, history }) {
                   <Col xs="7">
                     <div className="numbers">
                       <p className="card-category">User Role</p>
-                      <Card.Title as="h4">{comment.data.user.isAdmin==false?"Admin":"Super Admin"}</Card.Title>
+                      <Card.Title as="h4">{comment && comment.data.user.isAdmin==false?"Admin":"Super Admin"}</Card.Title>
                     </div>
                   </Col>
                 </Row>
@@ -189,10 +189,10 @@ function Dashboard({ match, location, history }) {
                       src={image ? image : 'test'}
                     
                       ></img>
-                    <h5 className="title">{comment.data.user.name}</h5>
+                    <h5 className="title">{comment&&comment.data.user.name}</h5>
                   </a>
-                  <p className="description">{comment.data.user.email}</p>
-                  {comment.data.user.isAdmin==false?"Admin":"Super Admin"}
+                  <p className="description">{comment&&comment.data.user.email}</p>
+                  {comment&&comment.data.user.isAdmin==false?"Admin":"Super Admin"}
                 </div>
                 
                

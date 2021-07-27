@@ -424,10 +424,11 @@ const duplicateTicket = asyncHandler(async (req, res) => {
   // Ticket.find().forEach(function(doc){
   //   tickets.insert(doc);
   // })
+  //  const ticket = await Ticket.findById(req.params.id);
 
-  const ticket = new Ticket(req.body);
+  const newticket = new Ticket(req.body);
 
-  const createdTicket = await ticket.save();
+  const createdTicket = await newticket.save();
   res.status(201).json(createdTicket);
 });
 
@@ -501,10 +502,12 @@ const clonetrueTicket = asyncHandler(async (req, res) => {
 
 
 const NewTickets = asyncHandler(async (req, res) => {
-  // const Tickets = await Ticket.find({
+  //  await Ticket.find({
   //   Createdby: req.params.id,
   //   "isSelected.item": { $in: [req.params.templateid] },
   // });
+// const tickets=Ticket.find({Createdby: req.params.id,
+//     "isSelected.item": { $in: [req.params.templateid] },})
 
   const newTickets = Ticket.insertMany(req.body);
   res.status(201).json(newTickets);

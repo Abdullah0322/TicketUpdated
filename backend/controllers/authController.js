@@ -28,11 +28,11 @@ const googlelogin = asyncHandler(async (req, res) => {
           } else {
             if (user) {
               const token = generateToken(user._id);
-              const { _id, name, email, isAdmin } = user;
-              res.json({ token, user: { _id, name, email, isAdmin } });
+              const { _id, name, email,isAdmin } = user;
+              res.json({ token, user: { _id, name, email,isAdmin} });
             } else {
               let password = email + process.env.JWT_SECRET;
-              let newUser = new User({ name, email, password, isAdmin });
+              let newUser = new User({ name, email, password });
               newUser.save((err, data) => {
                 if (err) {
                   return res.status(400).json({

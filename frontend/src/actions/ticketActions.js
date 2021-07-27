@@ -355,9 +355,20 @@ export const duplicateTicket = (ticket) => async (dispatch) => {
     dispatch({
       type: TICKET_DUPLICATE_REQUEST,
     });
+    // localStorage.setItem("ticket_id",ticket._id)
+    // var existing = localStorage.getItem("ticket_id");
 
-    delete ticket._id;
+    // // If no existing data, use the value by itself
+    // // Otherwise, add the new value to it
+    // var dat = existing ? ticket._id : existing;
+
+    // // Save back to localStorage
+    // localStorage.setItem("id", dat)
+    //  const ticketid =localStorage.getItem("ticket_id")
+    //  console.log(ticketid)
+     delete ticket._id;
     ticket.isSelected = [];
+    
     const { data } = await axios.post(
       `${SERVER}/api/tickets/duplicate`,
       ticket

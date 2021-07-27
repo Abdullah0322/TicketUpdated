@@ -27,16 +27,21 @@ function Icons({history,location}) {
   const useremail=localStorage.getItem("email");
   const submitHandler = (e) => {
     e.preventDefault();
+    const user = JSON.parse(localStorage.getItem("response"));
+
+    const token=user.data.token
+    const useremail = user.data.user.email;
 
   const datatosend={
     name,
     email,
-    cc
+    cc,
   }
+
   console.log(datatosend)
   console.log(cc)
-  const user = JSON.parse(localStorage.getItem("response"));
     const id = user.data.user._id;
+    console.log(token)
     axios.post(`${SERVER}/api/sendmail/${id}` ,datatosend).then(notify("tc",`Email sent to ${email} CC:${cc}`))
  
 

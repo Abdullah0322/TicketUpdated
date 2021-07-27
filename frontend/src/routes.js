@@ -9,6 +9,7 @@ import Upgrade from "views/Upgrade.js";
 import TemplateScreen from "views/TemplateScreen";
 import UserTicketScreen from "components/Superview/UserScreen";
 import Superview from "components/Superview/Superview";
+import ShowTemplate from "views/ShowTemplate";
 const dashboardRoutes = [
   {
     
@@ -16,6 +17,14 @@ const dashboardRoutes = [
     name: "Dashboard",
     icon: "nc-icon nc-chart-pie-35",
     component: Dashboard,
+    layout: "/admin",
+  },
+  {
+    
+    path: `/main`,
+    name: "Template",
+    icon: "nc-icon nc-chart-pie-35",
+    component: ShowTemplate,
     layout: "/admin",
   },
 
@@ -31,7 +40,7 @@ const dashboardRoutes = [
 
   {
     path: "/templetes",
-    name: "Previous Templates",
+    name: "Saved Templates",
     icon: "nc-icon nc-atom",
     component: Notifications,
     layout: "/admin",

@@ -14,6 +14,7 @@ import routes from "routes.js";
 
 const logout = ({history}) => {
   localStorage.removeItem("response");
+  localStorage.removeItem("email");
   window.location.reload();
 };
 let comment = JSON.parse(localStorage.getItem("response"));

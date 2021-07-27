@@ -14,6 +14,7 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import SERVER from "../globals";
 
 function Copyright() {
   return (
@@ -61,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 import GoogleLogin from "react-google-login";
 import axios from "axios";
-import SERVER from "globals";
 import Meta from "Meta/Meta";
 import "./user.css";
 
@@ -71,7 +71,8 @@ function User({ location, history }) {
 
   const responsesFail = (response) => {};
   const responsesSuccess = (response) => {
-    localStorage.setItem("email", JSON.stringify(response.profileObj.email));
+    localStorage.setItem("email", response.profileObj.imageUrl);
+    console.log("my response",response)
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -84,15 +85,15 @@ function User({ location, history }) {
     //   config
     // ).then((response) => {
     //   localStorage.setItem("response", JSON.stringify(data));
-
     //     console.log(response);
     // });
     axios({
       method: "POST",
-      url: `https://ticketupdater.herokuapp.com/api/googlelogin`,
+      url: `${SERVER}/api/googlelogin`,
       data: { tokenId: response.tokenId },
       config,
     }).then((response) => {
+     
       localStorage.setItem("response", JSON.stringify(response));
       // localStorage.getItem('id')?localStorage.getItem("id"):localStorage.setItem('id',null)
       window.location.reload();

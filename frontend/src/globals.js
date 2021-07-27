@@ -1,4 +1,4 @@
-const SERVER= "https://ticketupdater.herokuapp.com"
+const SERVER= "http://localhost:5000"
 
 export default SERVER
 

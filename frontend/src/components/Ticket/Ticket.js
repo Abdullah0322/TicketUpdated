@@ -25,9 +25,11 @@ import Button from "@material-ui/core/Button";
 import { Card } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
-    "& > *": {
-      margin: theme.spacing(1),
-    },
+    margin: theme.spacing(0, 1, 0),
+  },
+  edit: {
+    backgroundColor: "#21b6ae",
+    margin: theme.spacing(0, 1, 0),
   },
 }));
 const Ticket = ({ ticket }) => {
@@ -51,6 +53,7 @@ const Ticket = ({ ticket }) => {
   };
 
   const [button3, setButton3] = useState(false);
+  const [allbuttons, setAllbuttons] = useState(false);
 
   const [headingName, setHeadingName] = useState(ticket.heading);
   const [bodyName, setBodyName] = useState(ticket.body);
@@ -205,10 +208,52 @@ const Ticket = ({ ticket }) => {
     dispatch(duplicateTicket(ticket));
   };
 
-
   return (
     <div id="stats">
       <Row>
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          onClick={handleDuplicate}
+        >
+          Duplicate
+        </Button>
+        {allbuttons == false ? (
+          <Button
+            variant="contained"
+            color="secondary"
+            size="small"
+            className={classes.edit}
+            onClick={() => {setAllbuttons(true);
+              setInput(true)}
+            }
+          >
+            Edit
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            color="secondary"
+            size="small"
+            className={classes.edit}
+            onClick={() => {setAllbuttons(false);
+              setInput(false)}
+            }
+          >
+            Update
+          </Button>
+        )}
+
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          className={classes.root}
+          onClick={() => deleteHandler(ticket._id)}
+        >
+          Delete
+        </Button>
         <Table className="table table-borderless" variant="dark">
           <thead>
             <tr>
@@ -239,8 +284,33 @@ const Ticket = ({ ticket }) => {
                     )}
                   </th>
                 ))}
-
-              <th>
+              <td>
+                {allbuttons == true ? (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    onClick={() => deleteheading(ticket._id)}
+                  >
+                    <i className="fas fa-minus"></i>
+                  </Button>
+                ) : (
+                  ""
+                )}
+                {allbuttons == true ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={() => submitHandler(ticket._id)}
+                  >
+                    <i className="fas fa-plus"></i>
+                  </Button>
+                ) : (
+                  ""
+                )}
+              </td>
+              {/* <th>
                 <div className="edit">
                   {ticket.heading.length == 0 ? (
                     ""
@@ -274,7 +344,7 @@ const Ticket = ({ ticket }) => {
                     </Button>
                   )}
                 </div>
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody>
@@ -282,7 +352,7 @@ const Ticket = ({ ticket }) => {
               {ticket.body.map((body, i) => (
                 <td key={i}>
                   {}
-                  {input1 == false ? (
+                  {input == false ? (
                     <div className="body"> {body}</div>
                   ) : (
                     <InputGroup className="mb-3">
@@ -297,7 +367,7 @@ const Ticket = ({ ticket }) => {
                   )}
                 </td>
               ))}
-              <td>
+              {/* <td>
                 {" "}
                 {ticket.body.length == 0 ? (
                   ""
@@ -327,12 +397,12 @@ const Ticket = ({ ticket }) => {
                     Update
                   </Button>
                 )}
-              </td>
+              </td> */}
             </tr>
             <tr>
               {ticket.heading2.map((head2, i) => (
                 <td key={i}>
-                  {input2 == false ? (
+                  {input == false ? (
                     <h6 className="head">
                       <b>{head2}</b>
                     </h6>
@@ -350,6 +420,33 @@ const Ticket = ({ ticket }) => {
                 </td>
               ))}
               <td>
+                {allbuttons == true ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={() => submitHand(ticket._id)}
+                  >
+                    <i className="fas fa-plus"></i>
+                  </Button>
+                ) : (
+                  ""
+                )}
+
+                {allbuttons == true ? (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    onClick={() => deleteheading2(ticket._id)}
+                  >
+                    <i className="fas fa-minus"></i>
+                  </Button>
+                ) : (
+                  ""
+                )}
+              </td>
+              {/* <td>
                 {" "}
                 {ticket.heading2.length == 0 ? (
                   ""
@@ -379,12 +476,12 @@ const Ticket = ({ ticket }) => {
                     Update
                   </Button>
                 )}
-              </td>
+              </td> */}
             </tr>
             <tr>
               {ticket.body2.map((body2, i) => (
                 <td key={i}>
-                  {input3 == false ? (
+                  {input == false ? (
                     <div className="body"> {body2}</div>
                   ) : (
                     <InputGroup className="mb-3">
@@ -399,11 +496,11 @@ const Ticket = ({ ticket }) => {
                   )}
                 </td>
               ))}
-              <td>
+              {/* <td>
                 {" "}
                 {ticket.body2.length == 0 ? (
                   ""
-                ) : button3 == false && localStorage.getItem("response") ? (
+                ) : button3 == false ? (
                   <Button
                     variant="contained"
                     color="primary"
@@ -430,96 +527,10 @@ const Ticket = ({ ticket }) => {
                     Update
                   </Button>
                 )}
-              </td>
+              </td> */}
             </tr>
-            <tr>
-              <td>
-                {localStorage.getItem("response") ? (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    size="small"
-                    onClick={() => deleteHandler(ticket._id)}
-                  >
-                    Delete
-                  </Button>
-                ) : (
-                  ""
-                )}
-              </td>
-              <td>
-                {localStorage.getItem("response") ? (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    size="small"
-                    onClick={() => deleteheading(ticket._id)}
-                  >
-                    Delete Column 1
-                  </Button>
-                ) : (
-                  ""
-                )}
-              </td>
-              <td>
-                {localStorage.getItem("response") ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    onClick={() => submitHandler(ticket._id)}
-                  >
-                    Add Column 1
-                  </Button>
-                ) : (
-                  ""
-                )}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                {localStorage.getItem("response") ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    onClick={handleDuplicate}
-                  >
-                    Duplicate
-                  </Button>
-                ) : (
-                  ""
-                )}
-              </td>
-              <td>
-                {localStorage.getItem("response") ? (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    size="small"
-                    onClick={() => deleteheading2(ticket._id)}
-                  >
-                    Delete Column 2
-                  </Button>
-                ) : (
-                  ""
-                )}
-              </td>
-              <td>
-                {localStorage.getItem("response") ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    onClick={() => submitHand(ticket._id)}
-                  >
-                    Add Column 2
-                  </Button>
-                ) : (
-                  ""
-                )}
-              </td>
-            </tr>
+            <tr></tr>
+            <tr></tr>
           </tbody>
         </Table>
       </Row>

@@ -9,7 +9,8 @@ const bodySchema = mongoose.Schema({
 
 
 const ticketSchema = mongoose.Schema(
-  {
+  { 
+     
     heading: {
       type: Array,
     },
@@ -53,7 +54,8 @@ const ticketSchema = mongoose.Schema(
  
   {
     timestamps: true,
-  }
+  },
+  {strict:false}
 
   
 );

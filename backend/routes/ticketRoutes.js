@@ -33,7 +33,7 @@ router.get('/',getallTickets)
 router
   .route('/:id')
   .delete(deleteTicket)
-  .post(getTicketsById)
+  .get(getTicketsById)
   .put(updateTicket)
   router.route('/:id/headings').post(createHeading)
   router.route('/:id/headings').delete(removeHeading)

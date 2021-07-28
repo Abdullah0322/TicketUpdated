@@ -38,6 +38,7 @@ function Sidebar({ color, image, routes }) {
         </div>
         <Nav>
           {routes.map((prop, key) => {
+            if(prop.display) 
             if (!prop.redirect)
               return (
                 <li

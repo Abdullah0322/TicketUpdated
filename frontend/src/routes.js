@@ -12,7 +12,7 @@ import Superview from "components/Superview/Superview";
 import ShowTemplate from "views/ShowTemplate";
 const dashboardRoutes = [
   {
-    
+    display: true,
     path: `/dashboard`,
     name: "Dashboard",
     icon: "nc-icon nc-chart-pie-35",
@@ -20,7 +20,7 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
-    
+    display: true,
     path: `/main`,
     name: "Template",
     icon: "nc-icon nc-chart-pie-35",
@@ -28,9 +28,8 @@ const dashboardRoutes = [
     layout: "/admin",
   },
 
-  
-
   {
+    display: true,
     path: "/sendmail",
     name: "Email Template",
     icon: "nc-icon nc-atom",
@@ -39,6 +38,7 @@ const dashboardRoutes = [
   },
 
   {
+    display: true,
     path: "/templetes",
     name: "Saved Templates",
     icon: "nc-icon nc-atom",
@@ -46,7 +46,7 @@ const dashboardRoutes = [
     layout: "/admin",
   },
 
-  {
+  {  display: true,
     path: "/alltickets",
     name: "All Tickets",
     icon: "nc-icon nc-atom",
@@ -56,7 +56,7 @@ const dashboardRoutes = [
 
   {
     path: "/template/:id",
-
+    name:"rjhir",
     component: TemplateScreen,
     layout: "/admin",
   },

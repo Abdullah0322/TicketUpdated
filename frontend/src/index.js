@@ -12,16 +12,25 @@ import AdminLayout from "layouts/Admin.js";
 import store from "store";
 import { Provider } from "react-redux";
 import User from "views/UserProfile";
-import TemplateScreen from "views/TemplateScreen"
+import TemplateScreen from "./views/TemplateScreen";
+
+const Check = () => {
+  return <div>Hello</div>;
+};
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
         <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+        
+        {/* <Route path="/admin/template/:id" render={(props) => <TemplateScreen {...props} />} /> */}
+
+        {/* <Route path="admin/hello" component={Check} exact /> */}
 
         <Route path="/login" component={User} exact />
-        
+
+        {/* <Route path="admin/template/:id" component={TemplateScreen}    ></Route> */}
 
         {localStorage.getItem("response") ? (
           <Redirect from="/" to="/admin/dashboard" />

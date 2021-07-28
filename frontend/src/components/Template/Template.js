@@ -19,11 +19,13 @@ import {
   Col,
   Table,
 } from "react-bootstrap";
+import {useHistory} from 'react-router'
 import Button from "@material-ui/core/Button";
 
 import { deleteTemplate } from "actions/templateActions";
 
-const Template = ({ template }) => {
+const Template = ({ template,location }) => {
+  const history= useHistory()
  
 
   const UpdateLocal = () => {
@@ -65,14 +67,17 @@ const Template = ({ template }) => {
     
 
   }
+  // const redirect = location.search ? location.search.split("=")[1] : "/login";
+
+  //  console.log("history",history.push("template/:id"))
 
   var dateString = moment(template.createdAt).format("DD/MM/YYYY");
   return (
     <>
       <Container fluid>
        
-        <Card className="customcard">
-          <Link to={`admin/template/${template._id}`}></Link>
+        <Card className="customcard" >
+         <Link to={`/admin/template/${template._id}`}></Link> 
 
           <Card.Body>
             <Link to={`/admin/template/${template._id}`}>

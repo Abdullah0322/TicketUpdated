@@ -1,5 +1,7 @@
 import React, { useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ImageButton from 'react-image-button';
+
 
 import ChartistGraph from "react-chartist";
 // react-bootstrap components
@@ -21,7 +23,7 @@ import {
   listTickets
 } from "../actions/ticketActions";
 import { listTemplates } from "../actions/templateActions";
-
+import MyImage from 'assets/img/giga.png'
 function Dashboard({ match, location, history }) {
   const dispatch = useDispatch();
   const keyword = match.params.keyword;
@@ -120,7 +122,7 @@ function Dashboard({ match, location, history }) {
                 <Row>
                   <Col xs="5">
                     <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-vector text-danger"></i>
+                      <i className="nc-icon nc-single-02"></i>
                     </div>
                   </Col>
                   <Col xs="7">
@@ -146,7 +148,7 @@ function Dashboard({ match, location, history }) {
                 <Row>
                   <Col xs="5">
                     <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-favourite-28 text-primary"></i>
+                      <i className="nc-icon nc-tap-01"></i>
                     </div>
                   </Col>
                   <Col xs="7">
@@ -199,30 +201,18 @@ function Dashboard({ match, location, history }) {
               </Card.Body>
               <hr></hr>
               <div className="button-container mr-auto ml-auto">
+              
                 <Button
                   className="btn-simple btn-icon"
                   href="#pablo"
-                  onClick={(e) => e.preventDefault()}
+                  onClick={()=>window.open('https://gigalabs.co/')}
                   variant="link"
+                  
                 >
-                  <i className="fab fa-facebook-square"></i>
+                <img src={MyImage} alt="my image"  width="100" height="100"></img>
                 </Button>
-                <Button
-                  className="btn-simple btn-icon"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                  variant="link"
-                >
-                  <i className="fab fa-twitter"></i>
-                </Button>
-                <Button
-                  className="btn-simple btn-icon"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                  variant="link"
-                >
-                  <i className="fab fa-google-plus-square"></i>
-                </Button>
+               
+              
               </div>
             </Card>
           </Col>
